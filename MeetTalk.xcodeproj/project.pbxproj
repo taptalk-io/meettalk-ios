@@ -11,6 +11,10 @@
 		0AC9AFA327CE25E2006A2575 /* MeetTalk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AC9AF9A27CE25E2006A2575 /* MeetTalk.framework */; };
 		0AC9AFA827CE25E2006A2575 /* MeetTalkTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AC9AFA727CE25E2006A2575 /* MeetTalkTests.m */; };
 		0AC9AFA927CE25E2006A2575 /* MeetTalk.h in Headers */ = {isa = PBXBuildFile; fileRef = 0AC9AF9D27CE25E2006A2575 /* MeetTalk.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0AF7437527D1FB9A005660EB /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0AF7437727D1FB9A005660EB /* Localizable.strings */; };
+		0AF7438627D20650005660EB /* MeetTalkConfigs.h in Headers */ = {isa = PBXBuildFile; fileRef = 0AF7438427D20650005660EB /* MeetTalkConfigs.h */; };
+		0AF7438727D20650005660EB /* MeetTalkAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0AF7438527D20650005660EB /* MeetTalkAssets.xcassets */; };
+		0AF7438927D20669005660EB /* MeetTalkStyle.h in Headers */ = {isa = PBXBuildFile; fileRef = 0AF7438827D20669005660EB /* MeetTalkStyle.h */; };
 		542FC2C62A0B397F50CB0764 /* libPods-MeetTalk-MeetTalkTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CF46494C0404799F3931D1B6 /* libPods-MeetTalk-MeetTalkTests.a */; };
 		8D36673C6B4DF12E78CBEF88 /* libPods-MeetTalk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B2BDFF32F2F2ED4605EB76CF /* libPods-MeetTalk.a */; };
 /* End PBXBuildFile section */
@@ -31,6 +35,11 @@
 		0AC9AF9D27CE25E2006A2575 /* MeetTalk.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetTalk.h; sourceTree = "<group>"; };
 		0AC9AFA227CE25E2006A2575 /* MeetTalkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MeetTalkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AC9AFA727CE25E2006A2575 /* MeetTalkTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeetTalkTests.m; sourceTree = "<group>"; };
+		0AF7437627D1FB9A005660EB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		0AF7437827D1FB9C005660EB /* id */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = id; path = id.lproj/Localizable.strings; sourceTree = "<group>"; };
+		0AF7438427D20650005660EB /* MeetTalkConfigs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeetTalkConfigs.h; sourceTree = "<group>"; };
+		0AF7438527D20650005660EB /* MeetTalkAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = MeetTalkAssets.xcassets; sourceTree = "<group>"; };
+		0AF7438827D20669005660EB /* MeetTalkStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeetTalkStyle.h; sourceTree = "<group>"; };
 		158A3B11C1680EC5D19D3922 /* Pods-MeetTalk-MeetTalkTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MeetTalk-MeetTalkTests.debug.xcconfig"; path = "Target Support Files/Pods-MeetTalk-MeetTalkTests/Pods-MeetTalk-MeetTalkTests.debug.xcconfig"; sourceTree = "<group>"; };
 		16A91E048E494B4A255EFCF7 /* Pods-MeetTalk-MeetTalkTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MeetTalk-MeetTalkTests.release.xcconfig"; path = "Target Support Files/Pods-MeetTalk-MeetTalkTests/Pods-MeetTalk-MeetTalkTests.release.xcconfig"; sourceTree = "<group>"; };
 		621690EA1C3C9E511CA4875C /* Pods-MeetTalk.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MeetTalk.release.xcconfig"; path = "Target Support Files/Pods-MeetTalk/Pods-MeetTalk.release.xcconfig"; sourceTree = "<group>"; };
@@ -85,6 +94,12 @@
 			children = (
 				0AC9AF9D27CE25E2006A2575 /* MeetTalk.h */,
 				0A2C410527CF832C004AD641 /* MeetTalk.m */,
+				0AF7437727D1FB9A005660EB /* Localizable.strings */,
+				0AF7437927D1FC75005660EB /* Managers */,
+				0AF7437A27D1FC7C005660EB /* Models */,
+				0AF7437B27D1FCF9005660EB /* Supporting Files */,
+				0AF7437D27D1FD2B005660EB /* View Controllers */,
+				0AF7437C27D1FD22005660EB /* Views */,
 			);
 			path = MeetTalk;
 			sourceTree = "<group>";
@@ -95,6 +110,44 @@
 				0AC9AFA727CE25E2006A2575 /* MeetTalkTests.m */,
 			);
 			path = MeetTalkTests;
+			sourceTree = "<group>";
+		};
+		0AF7437927D1FC75005660EB /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		0AF7437A27D1FC7C005660EB /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		0AF7437B27D1FCF9005660EB /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				0AF7438527D20650005660EB /* MeetTalkAssets.xcassets */,
+				0AF7438427D20650005660EB /* MeetTalkConfigs.h */,
+				0AF7438827D20669005660EB /* MeetTalkStyle.h */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		0AF7437C27D1FD22005660EB /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		0AF7437D27D1FD2B005660EB /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "View Controllers";
 			sourceTree = "<group>";
 		};
 		865ECECCBB95CCA067ACF337 /* Frameworks */ = {
@@ -124,6 +177,8 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0AF7438927D20669005660EB /* MeetTalkStyle.h in Headers */,
+				0AF7438627D20650005660EB /* MeetTalkConfigs.h in Headers */,
 				0AC9AFA927CE25E2006A2575 /* MeetTalk.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -195,6 +250,7 @@
 			knownRegions = (
 				en,
 				Base,
+				id,
 			);
 			mainGroup = 0AC9AF9027CE25E2006A2575;
 			productRefGroup = 0AC9AF9B27CE25E2006A2575 /* Products */;
@@ -212,6 +268,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0AF7437527D1FB9A005660EB /* Localizable.strings in Resources */,
+				0AF7438727D20650005660EB /* MeetTalkAssets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -331,6 +389,18 @@
 			targetProxy = 0AC9AFA427CE25E2006A2575 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		0AF7437727D1FB9A005660EB /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0AF7437627D1FB9A005660EB /* en */,
+				0AF7437827D1FB9C005660EB /* id */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		0AC9AFAA27CE25E2006A2575 /* Debug */ = {
@@ -480,7 +550,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.1;
+				MARKETING_VERSION = 0.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = io.taptalk.MeetTalk;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -516,7 +586,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.1;
+				MARKETING_VERSION = 0.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = io.taptalk.MeetTalk;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;

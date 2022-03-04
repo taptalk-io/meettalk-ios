@@ -1,0 +1,23 @@
+//
+//  MeetTalkStyle.h
+//
+
+//#ifndef MeetTalkStyle_h
+//#define MeetTalkStyle_h
+
+#pragma mark - Default Color
+
+#define TAP_COLOR_PRIMARY_EXTRA_LIGHT @"FFA045"
+#define TAP_COLOR_PRIMARY_LIGHT @"FF9833"
+#define TAP_COLOR_PRIMARY @"FF7E00"
+#define TAP_COLOR_PRIMARY_DARK @"E87200"
+#define TAP_COLOR_SUCCESS @"7EC82A"
+#define TAP_COLOR_ERROR @"FF3F57"
+#define TAP_COLOR_TEXT_LIGHT @"FFFFFF"
+#define TAP_COLOR_TEXT_MEDIUM @"9B9B9B"
+#define TAP_COLOR_TEXT_DARK @"191919"
+#define TAP_COLOR_ICON_PRIMARY @"FF7E00"
+#define TAP_COLOR_ICON_WHITE @"FFFFFF"
+#define TAP_COLOR_ICON_GRAY @"9B9B9B"
+#define TAP_COLOR_ICON_SUCCESS @"7EC82A"
+#define TAP_COLOR_ICON_ERROR @"FF3F57"
