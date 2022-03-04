@@ -1,0 +1,1 @@
+../../../TapTalk/TapTalk/Views/TAPScanQRCodeView.h

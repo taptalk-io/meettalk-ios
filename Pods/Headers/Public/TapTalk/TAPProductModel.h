@@ -1,0 +1,1 @@
+../../../TapTalk/TapTalk/Models/TAPProductModel.h
