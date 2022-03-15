@@ -6,6 +6,8 @@
 //
 
 #import "MeetTalkCallViewController.h"
+#import <TapTalk/TapTalk.h>
+#import <TapTalk/TAPUserModel.h>
 
 @import JitsiMeetSDK;
 

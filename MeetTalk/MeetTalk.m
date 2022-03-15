@@ -7,8 +7,10 @@
 
 #import <Foundation/Foundation.h>
 #import "MeetTalk.h"
-#import "TapTalk.h"
+#import <TapTalk/TapTalk.h>
 #import "MeetTalkCallViewController.h"
+#import "MeetTalkConfigs.h"
+#import "PodAsset.h"
 
 @import JitsiMeetSDK;
 
