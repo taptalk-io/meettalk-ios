@@ -15,6 +15,9 @@
 		0AF7438627D20650005660EB /* MeetTalkConfigs.h in Headers */ = {isa = PBXBuildFile; fileRef = 0AF7438427D20650005660EB /* MeetTalkConfigs.h */; };
 		0AF7438727D20650005660EB /* MeetTalkAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0AF7438527D20650005660EB /* MeetTalkAssets.xcassets */; };
 		0AF7438927D20669005660EB /* MeetTalkStyle.h in Headers */ = {isa = PBXBuildFile; fileRef = 0AF7438827D20669005660EB /* MeetTalkStyle.h */; };
+		0AF7438D27D224E3005660EB /* MeetTalkCallViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 0AF7438A27D224E3005660EB /* MeetTalkCallViewController.h */; };
+		0AF7438E27D224E3005660EB /* MeetTalkCallViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AF7438B27D224E3005660EB /* MeetTalkCallViewController.m */; };
+		0AF7438F27D224E3005660EB /* MeetTalkCallViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0AF7438C27D224E3005660EB /* MeetTalkCallViewController.xib */; };
 		542FC2C62A0B397F50CB0764 /* libPods-MeetTalk-MeetTalkTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CF46494C0404799F3931D1B6 /* libPods-MeetTalk-MeetTalkTests.a */; };
 		8D36673C6B4DF12E78CBEF88 /* libPods-MeetTalk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B2BDFF32F2F2ED4605EB76CF /* libPods-MeetTalk.a */; };
 /* End PBXBuildFile section */
@@ -40,6 +43,9 @@
 		0AF7438427D20650005660EB /* MeetTalkConfigs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeetTalkConfigs.h; sourceTree = "<group>"; };
 		0AF7438527D20650005660EB /* MeetTalkAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = MeetTalkAssets.xcassets; sourceTree = "<group>"; };
 		0AF7438827D20669005660EB /* MeetTalkStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeetTalkStyle.h; sourceTree = "<group>"; };
+		0AF7438A27D224E3005660EB /* MeetTalkCallViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetTalkCallViewController.h; sourceTree = "<group>"; };
+		0AF7438B27D224E3005660EB /* MeetTalkCallViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeetTalkCallViewController.m; sourceTree = "<group>"; };
+		0AF7438C27D224E3005660EB /* MeetTalkCallViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MeetTalkCallViewController.xib; sourceTree = "<group>"; };
 		158A3B11C1680EC5D19D3922 /* Pods-MeetTalk-MeetTalkTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MeetTalk-MeetTalkTests.debug.xcconfig"; path = "Target Support Files/Pods-MeetTalk-MeetTalkTests/Pods-MeetTalk-MeetTalkTests.debug.xcconfig"; sourceTree = "<group>"; };
 		16A91E048E494B4A255EFCF7 /* Pods-MeetTalk-MeetTalkTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MeetTalk-MeetTalkTests.release.xcconfig"; path = "Target Support Files/Pods-MeetTalk-MeetTalkTests/Pods-MeetTalk-MeetTalkTests.release.xcconfig"; sourceTree = "<group>"; };
 		621690EA1C3C9E511CA4875C /* Pods-MeetTalk.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MeetTalk.release.xcconfig"; path = "Target Support Files/Pods-MeetTalk/Pods-MeetTalk.release.xcconfig"; sourceTree = "<group>"; };
@@ -146,6 +152,9 @@
 		0AF7437D27D1FD2B005660EB /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				0AF7438A27D224E3005660EB /* MeetTalkCallViewController.h */,
+				0AF7438B27D224E3005660EB /* MeetTalkCallViewController.m */,
+				0AF7438C27D224E3005660EB /* MeetTalkCallViewController.xib */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -177,6 +186,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0AF7438D27D224E3005660EB /* MeetTalkCallViewController.h in Headers */,
 				0AF7438927D20669005660EB /* MeetTalkStyle.h in Headers */,
 				0AF7438627D20650005660EB /* MeetTalkConfigs.h in Headers */,
 				0AC9AFA927CE25E2006A2575 /* MeetTalk.h in Headers */,
@@ -215,6 +225,7 @@
 				0AC9AF9F27CE25E2006A2575 /* Frameworks */,
 				0AC9AFA027CE25E2006A2575 /* Resources */,
 				48B119B01AC02D11EEF77877 /* [CP] Copy Pods Resources */,
+				A65F5E68DD10DADC46F4E26B /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -269,6 +280,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0AF7437527D1FB9A005660EB /* Localizable.strings in Resources */,
+				0AF7438F27D224E3005660EB /* MeetTalkCallViewController.xib in Resources */,
 				0AF7438727D20650005660EB /* MeetTalkAssets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -361,6 +373,23 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		A65F5E68DD10DADC46F4E26B /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MeetTalk-MeetTalkTests/Pods-MeetTalk-MeetTalkTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MeetTalk-MeetTalkTests/Pods-MeetTalk-MeetTalkTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MeetTalk-MeetTalkTests/Pods-MeetTalk-MeetTalkTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -369,6 +398,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A2C410627CF832C004AD641 /* MeetTalk.m in Sources */,
+				0AF7438E27D224E3005660EB /* MeetTalkCallViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -550,7 +580,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.2;
+				MARKETING_VERSION = 0.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = io.taptalk.MeetTalk;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -586,7 +616,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.2;
+				MARKETING_VERSION = 0.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = io.taptalk.MeetTalk;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;

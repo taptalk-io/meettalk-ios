@@ -3,8 +3,8 @@ CONFIGURATION_BUILD_DIR = ${PODS_CONFIGURATION_BUILD_DIR}/TapTalk
 EXCLUDED_ARCHS[sdk=iphonesimulator*] = arm64
 FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/GoogleMaps/Base/Frameworks" "${PODS_ROOT}/GoogleMaps/Maps/Frameworks" "${PODS_ROOT}/GooglePlaces/Frameworks" "${PODS_ROOT}/Realm/core"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
-HEADER_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Headers/Private" "${PODS_ROOT}/Headers/Private/TapTalk" "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/Realm" "${PODS_XCFRAMEWORKS_BUILD_DIR}/Realm/Headers"
-OTHER_CFLAGS = $(inherited) -fmodule-map-file="${PODS_ROOT}/Headers/Private/Realm/Realm.modulemap" -fmodule-map-file="${PODS_ROOT}/Headers/Public/AFNetworking/AFNetworking.modulemap" -fmodule-map-file="${PODS_ROOT}/Headers/Public/JSONModel/JSONModel.modulemap" -fmodule-map-file="${PODS_ROOT}/Headers/Public/PodAsset/PodAsset.modulemap" -fmodule-map-file="${PODS_ROOT}/Headers/Public/SDWebImage/SDWebImage.modulemap" -fmodule-map-file="${PODS_ROOT}/Headers/Public/SocketRocket/SocketRocket.modulemap" -fmodule-map-file="${PODS_ROOT}/Headers/Public/ZSWTappableLabel/ZSWTappableLabel.modulemap"
+HEADER_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Headers/Private" "${PODS_ROOT}/Headers/Private/TapTalk" "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/AFNetworking" "${PODS_ROOT}/Headers/Public/JSONModel" "${PODS_ROOT}/Headers/Public/PodAsset" "${PODS_ROOT}/Headers/Public/Realm" "${PODS_ROOT}/Headers/Public/SDWebImage" "${PODS_ROOT}/Headers/Public/SocketRocket" "${PODS_ROOT}/Headers/Public/TapTalk" "${PODS_ROOT}/Headers/Public/ZSWTappableLabel" "${PODS_XCFRAMEWORKS_BUILD_DIR}/Realm/Headers"
+OTHER_CFLAGS = $(inherited) -fmodule-map-file="${PODS_ROOT}/Headers/Public/AFNetworking/AFNetworking.modulemap" -fmodule-map-file="${PODS_ROOT}/Headers/Public/JSONModel/JSONModel.modulemap"
 PODS_BUILD_DIR = ${BUILD_DIR}
 PODS_CONFIGURATION_BUILD_DIR = ${PODS_BUILD_DIR}/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)
 PODS_ROOT = ${SRCROOT}

@@ -1,0 +1,3 @@
+${PODS_ROOT}/Target Support Files/Pods-MeetTalk-MeetTalkTests/Pods-MeetTalk-MeetTalkTests-frameworks.sh
+${PODS_XCFRAMEWORKS_BUILD_DIR}/JitsiMeetSDK/JitsiMeetSDK.framework/JitsiMeetSDK
+${PODS_XCFRAMEWORKS_BUILD_DIR}/JitsiMeetSDK/WebRTC.framework/WebRTC

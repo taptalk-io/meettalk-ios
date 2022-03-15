@@ -26,6 +26,6 @@ FOUNDATION_EXPORT const unsigned char MeetTalkVersionString[];
 @property (weak, nonatomic) id<MeetTalkDelegate> _Nullable delegate;
 //@property (strong, nonatomic) NSString *appID;
 
-+ (NSString *_Nonnull)getName;
-
++ (void)initializeTest;
++ (void)launchCallActivityTest:(UINavigationController *)navigationController roomID:(NSString *)roomID;
 @end

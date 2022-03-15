@@ -3,7 +3,7 @@ Pod::Spec.new do |s|
   # ―――  Spec Metadata  ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
 
     s.name         = "MeetTalk"
-    s.version      = "0.0.2"
+    s.version      = "0.0.3"
     s.summary      = "MeetTalk iOS SDK is an extension of TapTalk.io SDK, providing complete in-app chat SDK with the addition of voice and video call feature."
     s.homepage     = "https://taptalk.io"
 
@@ -47,6 +47,7 @@ Pod::Spec.new do |s|
     s.dependency "GooglePlaces"
     s.dependency "GoogleMaps"
     s.dependency "ZSWTappableLabel", "~> 2.0"
+    s.dependency "JitsiMeetSDK", "3.7.0"
 
     # ――― Prefix Header ――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
 

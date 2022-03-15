@@ -20,16 +20,17 @@ PODS:
   - GoogleMaps/Maps (6.0.1):
     - GoogleMaps/Base
   - GooglePlaces (6.0.0)
+  - JitsiMeetSDK (3.7.0)
   - JSONModel (1.8.0)
   - PodAsset (1.3.0)
   - Realm (10.1.0):
     - Realm/Headers (= 10.1.0)
   - Realm/Headers (10.1.0)
-  - SDWebImage (5.12.3):
-    - SDWebImage/Core (= 5.12.3)
-  - SDWebImage/Core (5.12.3)
+  - SDWebImage (5.12.4):
+    - SDWebImage/Core (= 5.12.4)
+  - SDWebImage/Core (5.12.4)
   - SocketRocket (0.6.0)
-  - TapTalk (1.4.2):
+  - TapTalk (1.5.0):
     - AFNetworking (~> 4.0.0)
     - GoogleMaps
     - GooglePlaces
@@ -43,6 +44,7 @@ PODS:
 
 DEPENDENCIES:
   - AFNetworking (~> 4.0.0)
+  - JitsiMeetSDK (= 3.7.0)
   - JSONModel (~> 1.1)
   - PodAsset
   - SDWebImage
@@ -53,6 +55,7 @@ SPEC REPOS:
     - AFNetworking
     - GoogleMaps
     - GooglePlaces
+    - JitsiMeetSDK
     - JSONModel
     - PodAsset
     - Realm
@@ -65,14 +68,15 @@ SPEC CHECKSUMS:
   AFNetworking: 7864c38297c79aaca1500c33288e429c3451fdce
   GoogleMaps: c213fc2334b7374144cede914da779b99be0ab74
   GooglePlaces: c97d96ae68594acb64035c9ca9f26fbfc1d23af1
+  JitsiMeetSDK: 1bedd99910a335035fbee5045379d8444f134f79
   JSONModel: 02ab723958366a3fd27da57ea2af2113658762e9
   PodAsset: 161b57cdf4d7307b0fb652cccab32fa8d5dc580b
   Realm: 100df88a0faf5328f48477427e4b3e1a1598bae3
-  SDWebImage: 53179a2dba77246efa8a9b85f5c5b21f8f43e38f
+  SDWebImage: 631cf572cc93dfdfe54162e556410a61f1141928
   SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
-  TapTalk: 5f4f454f1b60133899c68122180518837b7f6dbc
+  TapTalk: b3d3cf5d5789d23bae2b8475a8463c9fb3fd3078
   ZSWTappableLabel: cff84c0a55e30f2141f7dac24e5903302a7e35ec
 
-PODFILE CHECKSUM: 5e3c95b97f1f92e9cfbfc000bc588cf50f9af08c
+PODFILE CHECKSUM: d8c936b3a4a8e8deb358938dee65a1823be87884
 
 COCOAPODS: 1.11.2
