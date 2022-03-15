@@ -5,11 +5,11 @@
 //  Created by Kevin on 3/4/22.
 //
 
-#import "TAPBaseViewController.h"
+#import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MeetTalkCallViewController : TAPBaseViewController
+@interface MeetTalkCallViewController : UIViewController
 
 @property (nonatomic, weak) NSString *roomID;
 

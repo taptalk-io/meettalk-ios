@@ -581,7 +581,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.5;
+				MARKETING_VERSION = 0.0.6;
 				OTHER_SWIFT_FLAGS = "$(inherited) -D COCOAPODS -Xcc -Wno-error=non-modular-include-in-framework-module -Xcc -fmodule-map-file=\"${PODS_ROOT}/Headers/Public/AFNetworking/AFNetworking.modulemap\" -Xcc -fmodule-map-file=\"${PODS_ROOT}/Headers/Public/JSONModel/JSONModel.modulemap\"";
 				PRODUCT_BUNDLE_IDENTIFIER = io.taptalk.MeetTalk;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
@@ -619,7 +619,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.5;
+				MARKETING_VERSION = 0.0.6;
 				OTHER_SWIFT_FLAGS = "$(inherited) -D COCOAPODS -Xcc -Wno-error=non-modular-include-in-framework-module -Xcc -fmodule-map-file=\"${PODS_ROOT}/Headers/Public/AFNetworking/AFNetworking.modulemap\" -Xcc -fmodule-map-file=\"${PODS_ROOT}/Headers/Public/JSONModel/JSONModel.modulemap\"";
 				PRODUCT_BUNDLE_IDENTIFIER = io.taptalk.MeetTalk;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
