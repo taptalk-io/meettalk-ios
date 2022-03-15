@@ -557,6 +557,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 93B7FF03DEF12C927E162D68 /* Pods-MeetTalk.debug.xcconfig */;
 			buildSettings = {
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -580,7 +581,8 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.4;
+				MARKETING_VERSION = 0.0.5;
+				OTHER_SWIFT_FLAGS = "$(inherited) -D COCOAPODS -Xcc -Wno-error=non-modular-include-in-framework-module -Xcc -fmodule-map-file=\"${PODS_ROOT}/Headers/Public/AFNetworking/AFNetworking.modulemap\" -Xcc -fmodule-map-file=\"${PODS_ROOT}/Headers/Public/JSONModel/JSONModel.modulemap\"";
 				PRODUCT_BUNDLE_IDENTIFIER = io.taptalk.MeetTalk;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -593,6 +595,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 621690EA1C3C9E511CA4875C /* Pods-MeetTalk.release.xcconfig */;
 			buildSettings = {
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -616,7 +619,8 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.4;
+				MARKETING_VERSION = 0.0.5;
+				OTHER_SWIFT_FLAGS = "$(inherited) -D COCOAPODS -Xcc -Wno-error=non-modular-include-in-framework-module -Xcc -fmodule-map-file=\"${PODS_ROOT}/Headers/Public/AFNetworking/AFNetworking.modulemap\" -Xcc -fmodule-map-file=\"${PODS_ROOT}/Headers/Public/JSONModel/JSONModel.modulemap\"";
 				PRODUCT_BUNDLE_IDENTIFIER = io.taptalk.MeetTalk;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
