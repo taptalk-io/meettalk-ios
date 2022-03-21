@@ -12,7 +12,6 @@
 		0A0808E827E1C02E00F658B2 /* MeetTalkCallChatBubbleTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A0808E527E1C02E00F658B2 /* MeetTalkCallChatBubbleTableViewCell.xib */; };
 		0A0808EB27E1ED4D00F658B2 /* MeetTalkStyleManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A0808E927E1ED4D00F658B2 /* MeetTalkStyleManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0A0808EC27E1ED4D00F658B2 /* MeetTalkStyleManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0808EA27E1ED4D00F658B2 /* MeetTalkStyleManager.m */; };
-		0A0808EF27E1F5A700F658B2 /* MeetTalk-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A0808EE27E1F5A700F658B2 /* MeetTalk-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0A0808F227E2F61300F658B2 /* MeetTalkConferenceInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A0808F027E2F61300F658B2 /* MeetTalkConferenceInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0A0808F327E2F61300F658B2 /* MeetTalkConferenceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0808F127E2F61300F658B2 /* MeetTalkConferenceInfo.m */; };
 		0A0808F627E2F7D800F658B2 /* MeetTalkParticipantInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A0808F427E2F7D800F658B2 /* MeetTalkParticipantInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -49,7 +48,6 @@
 		0A0808E927E1ED4D00F658B2 /* MeetTalkStyleManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetTalkStyleManager.h; sourceTree = "<group>"; };
 		0A0808EA27E1ED4D00F658B2 /* MeetTalkStyleManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeetTalkStyleManager.m; sourceTree = "<group>"; };
 		0A0808ED27E1F58500F658B2 /* MeetTalk.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = MeetTalk.modulemap; sourceTree = "<group>"; };
-		0A0808EE27E1F5A700F658B2 /* MeetTalk-umbrella.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MeetTalk-umbrella.h"; sourceTree = "<group>"; };
 		0A0808F027E2F61300F658B2 /* MeetTalkConferenceInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetTalkConferenceInfo.h; sourceTree = "<group>"; };
 		0A0808F127E2F61300F658B2 /* MeetTalkConferenceInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeetTalkConferenceInfo.m; sourceTree = "<group>"; };
 		0A0808F427E2F7D800F658B2 /* MeetTalkParticipantInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetTalkParticipantInfo.h; sourceTree = "<group>"; };
@@ -176,7 +174,6 @@
 				0AF7438527D20650005660EB /* MeetTalkAssets.xcassets */,
 				0AF7438427D20650005660EB /* MeetTalkConfigs.h */,
 				0AF7438827D20669005660EB /* MeetTalkStyle.h */,
-				0A0808EE27E1F5A700F658B2 /* MeetTalk-umbrella.h */,
 				0A0808ED27E1F58500F658B2 /* MeetTalk.modulemap */,
 			);
 			path = "Supporting Files";
@@ -231,7 +228,6 @@
 				0AF7438627D20650005660EB /* MeetTalkConfigs.h in Headers */,
 				0A0808F227E2F61300F658B2 /* MeetTalkConferenceInfo.h in Headers */,
 				0A0808F627E2F7D800F658B2 /* MeetTalkParticipantInfo.h in Headers */,
-				0A0808EF27E1F5A700F658B2 /* MeetTalk-umbrella.h in Headers */,
 				0A0808E627E1C02E00F658B2 /* MeetTalkCallChatBubbleTableViewCell.h in Headers */,
 				0A0808EB27E1ED4D00F658B2 /* MeetTalkStyleManager.h in Headers */,
 				0AC9AFA927CE25E2006A2575 /* MeetTalk.h in Headers */,
