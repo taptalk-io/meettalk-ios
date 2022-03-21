@@ -41,7 +41,7 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)joinConferenceTest {
+- (void)joinConferenceTest:(NSString *)roomID {
     // Attach this controller as the delegate.
     //self.jitsiMeetView.delegate = self;
     
@@ -60,8 +60,9 @@
 //    JitsiMeetConferenceOptions *options = [JitsiMeet sharedInstance].defaultConferenceOptions;
 //    options.room = [NSString stringWithFormat:@"meettalktest%@", self.roomID];
 //    options.userInfo = userInfo;
+    
     JitsiMeetConferenceOptions *options = [JitsiMeetConferenceOptions fromBuilder:^(JitsiMeetConferenceOptionsBuilder *builder) {
-        builder.room = [NSString stringWithFormat:@"meettalktest%@", self.roomID];
+        builder.room = roomID;
         builder.userInfo = userInfo;
     }];
     [self.jitsiMeetView join:options];

@@ -7,6 +7,7 @@
 
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
+#import <TapTalk/TapTalk.h>
 
 //! Project version number for MeetTalk.
 FOUNDATION_EXPORT double MeetTalkVersionNumber;
@@ -26,6 +27,19 @@ FOUNDATION_EXPORT const unsigned char MeetTalkVersionString[];
 @property (weak, nonatomic) id<MeetTalkDelegate> _Nullable delegate;
 //@property (strong, nonatomic) NSString *appID;
 
-+ (void)initializeTest;
 + (void)launchCallActivityTest:(UINavigationController *)navigationController roomID:(NSString *)roomID;
+
++ (MeetTalk *)sharedInstance;
++ (NSBundle *_Nullable)bundle;
+- (void)initWithAppKeyID:(NSString *_Nonnull)appKeyID
+            appKeySecret:(NSString *_Nonnull)appKeySecret
+            apiURLString:(NSString *_Nonnull)apiURLString
+      implementationType:(TapTalkImplentationType)tapTalkImplementationType;
+
+- (void)initWithAppKeyID:(NSString *_Nonnull)appKeyID
+            appKeySecret:(NSString *_Nonnull)appKeySecret
+            apiURLString:(NSString *_Nonnull)apiURLString
+      implementationType:(TapTalkImplentationType)tapTalkImplementationType
+                 success:(void (^_Nullable)(void))success;
+
 @end

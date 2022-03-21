@@ -1,0 +1,6 @@
+module MeetTalk {
+  umbrella header "MeetTalk-umbrella.h"
+
+  export *
+  module * { export * }
+}

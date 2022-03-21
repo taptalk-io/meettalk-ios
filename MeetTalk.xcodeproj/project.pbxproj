@@ -7,6 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A0808E627E1C02E00F658B2 /* MeetTalkCallChatBubbleTableViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A0808E327E1C02E00F658B2 /* MeetTalkCallChatBubbleTableViewCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0A0808E727E1C02E00F658B2 /* MeetTalkCallChatBubbleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0808E427E1C02E00F658B2 /* MeetTalkCallChatBubbleTableViewCell.m */; };
+		0A0808E827E1C02E00F658B2 /* MeetTalkCallChatBubbleTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A0808E527E1C02E00F658B2 /* MeetTalkCallChatBubbleTableViewCell.xib */; };
+		0A0808EB27E1ED4D00F658B2 /* MeetTalkStyleManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A0808E927E1ED4D00F658B2 /* MeetTalkStyleManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0A0808EC27E1ED4D00F658B2 /* MeetTalkStyleManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0808EA27E1ED4D00F658B2 /* MeetTalkStyleManager.m */; };
+		0A0808EF27E1F5A700F658B2 /* MeetTalk-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A0808EE27E1F5A700F658B2 /* MeetTalk-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0A0808F227E2F61300F658B2 /* MeetTalkConferenceInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A0808F027E2F61300F658B2 /* MeetTalkConferenceInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0A0808F327E2F61300F658B2 /* MeetTalkConferenceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0808F127E2F61300F658B2 /* MeetTalkConferenceInfo.m */; };
+		0A0808F627E2F7D800F658B2 /* MeetTalkParticipantInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A0808F427E2F7D800F658B2 /* MeetTalkParticipantInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0A0808F727E2F7D800F658B2 /* MeetTalkParticipantInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0808F527E2F7D800F658B2 /* MeetTalkParticipantInfo.m */; };
 		0A2C410627CF832C004AD641 /* MeetTalk.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A2C410527CF832C004AD641 /* MeetTalk.m */; };
 		0AC9AFA327CE25E2006A2575 /* MeetTalk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AC9AF9A27CE25E2006A2575 /* MeetTalk.framework */; };
 		0AC9AFA827CE25E2006A2575 /* MeetTalkTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AC9AFA727CE25E2006A2575 /* MeetTalkTests.m */; };
@@ -33,6 +43,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0A0808E327E1C02E00F658B2 /* MeetTalkCallChatBubbleTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetTalkCallChatBubbleTableViewCell.h; sourceTree = "<group>"; };
+		0A0808E427E1C02E00F658B2 /* MeetTalkCallChatBubbleTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeetTalkCallChatBubbleTableViewCell.m; sourceTree = "<group>"; };
+		0A0808E527E1C02E00F658B2 /* MeetTalkCallChatBubbleTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MeetTalkCallChatBubbleTableViewCell.xib; sourceTree = "<group>"; };
+		0A0808E927E1ED4D00F658B2 /* MeetTalkStyleManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetTalkStyleManager.h; sourceTree = "<group>"; };
+		0A0808EA27E1ED4D00F658B2 /* MeetTalkStyleManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeetTalkStyleManager.m; sourceTree = "<group>"; };
+		0A0808ED27E1F58500F658B2 /* MeetTalk.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = MeetTalk.modulemap; sourceTree = "<group>"; };
+		0A0808EE27E1F5A700F658B2 /* MeetTalk-umbrella.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MeetTalk-umbrella.h"; sourceTree = "<group>"; };
+		0A0808F027E2F61300F658B2 /* MeetTalkConferenceInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetTalkConferenceInfo.h; sourceTree = "<group>"; };
+		0A0808F127E2F61300F658B2 /* MeetTalkConferenceInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeetTalkConferenceInfo.m; sourceTree = "<group>"; };
+		0A0808F427E2F7D800F658B2 /* MeetTalkParticipantInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetTalkParticipantInfo.h; sourceTree = "<group>"; };
+		0A0808F527E2F7D800F658B2 /* MeetTalkParticipantInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeetTalkParticipantInfo.m; sourceTree = "<group>"; };
 		0A2C410527CF832C004AD641 /* MeetTalk.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeetTalk.m; sourceTree = "<group>"; };
 		0AC9AF9A27CE25E2006A2575 /* MeetTalk.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MeetTalk.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AC9AF9D27CE25E2006A2575 /* MeetTalk.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetTalk.h; sourceTree = "<group>"; };
@@ -75,6 +96,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0A0808E227E1C00F00F658B2 /* Table View Cells */ = {
+			isa = PBXGroup;
+			children = (
+				0A0808E327E1C02E00F658B2 /* MeetTalkCallChatBubbleTableViewCell.h */,
+				0A0808E427E1C02E00F658B2 /* MeetTalkCallChatBubbleTableViewCell.m */,
+				0A0808E527E1C02E00F658B2 /* MeetTalkCallChatBubbleTableViewCell.xib */,
+			);
+			path = "Table View Cells";
+			sourceTree = "<group>";
+		};
 		0AC9AF9027CE25E2006A2575 = {
 			isa = PBXGroup;
 			children = (
@@ -104,6 +135,7 @@
 				0AF7437927D1FC75005660EB /* Managers */,
 				0AF7437A27D1FC7C005660EB /* Models */,
 				0AF7437B27D1FCF9005660EB /* Supporting Files */,
+				0A0808E227E1C00F00F658B2 /* Table View Cells */,
 				0AF7437D27D1FD2B005660EB /* View Controllers */,
 				0AF7437C27D1FD22005660EB /* Views */,
 			);
@@ -121,6 +153,8 @@
 		0AF7437927D1FC75005660EB /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				0A0808E927E1ED4D00F658B2 /* MeetTalkStyleManager.h */,
+				0A0808EA27E1ED4D00F658B2 /* MeetTalkStyleManager.m */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -128,6 +162,10 @@
 		0AF7437A27D1FC7C005660EB /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				0A0808F027E2F61300F658B2 /* MeetTalkConferenceInfo.h */,
+				0A0808F127E2F61300F658B2 /* MeetTalkConferenceInfo.m */,
+				0A0808F427E2F7D800F658B2 /* MeetTalkParticipantInfo.h */,
+				0A0808F527E2F7D800F658B2 /* MeetTalkParticipantInfo.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -138,6 +176,8 @@
 				0AF7438527D20650005660EB /* MeetTalkAssets.xcassets */,
 				0AF7438427D20650005660EB /* MeetTalkConfigs.h */,
 				0AF7438827D20669005660EB /* MeetTalkStyle.h */,
+				0A0808EE27E1F5A700F658B2 /* MeetTalk-umbrella.h */,
+				0A0808ED27E1F58500F658B2 /* MeetTalk.modulemap */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -189,6 +229,11 @@
 				0AF7438D27D224E3005660EB /* MeetTalkCallViewController.h in Headers */,
 				0AF7438927D20669005660EB /* MeetTalkStyle.h in Headers */,
 				0AF7438627D20650005660EB /* MeetTalkConfigs.h in Headers */,
+				0A0808F227E2F61300F658B2 /* MeetTalkConferenceInfo.h in Headers */,
+				0A0808F627E2F7D800F658B2 /* MeetTalkParticipantInfo.h in Headers */,
+				0A0808EF27E1F5A700F658B2 /* MeetTalk-umbrella.h in Headers */,
+				0A0808E627E1C02E00F658B2 /* MeetTalkCallChatBubbleTableViewCell.h in Headers */,
+				0A0808EB27E1ED4D00F658B2 /* MeetTalkStyleManager.h in Headers */,
 				0AC9AFA927CE25E2006A2575 /* MeetTalk.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -281,6 +326,7 @@
 			files = (
 				0AF7437527D1FB9A005660EB /* Localizable.strings in Resources */,
 				0AF7438F27D224E3005660EB /* MeetTalkCallViewController.xib in Resources */,
+				0A0808E827E1C02E00F658B2 /* MeetTalkCallChatBubbleTableViewCell.xib in Resources */,
 				0AF7438727D20650005660EB /* MeetTalkAssets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -397,7 +443,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A0808EC27E1ED4D00F658B2 /* MeetTalkStyleManager.m in Sources */,
+				0A0808F327E2F61300F658B2 /* MeetTalkConferenceInfo.m in Sources */,
+				0A0808E727E1C02E00F658B2 /* MeetTalkCallChatBubbleTableViewCell.m in Sources */,
 				0A2C410627CF832C004AD641 /* MeetTalk.m in Sources */,
+				0A0808F727E2F7D800F658B2 /* MeetTalkParticipantInfo.m in Sources */,
 				0AF7438E27D224E3005660EB /* MeetTalkCallViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -581,8 +631,44 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.6;
-				OTHER_SWIFT_FLAGS = "$(inherited) -D COCOAPODS -Xcc -Wno-error=non-modular-include-in-framework-module -Xcc -fmodule-map-file=\"${PODS_ROOT}/Headers/Public/AFNetworking/AFNetworking.modulemap\" -Xcc -fmodule-map-file=\"${PODS_ROOT}/Headers/Public/JSONModel/JSONModel.modulemap\"";
+				MARKETING_VERSION = 0.0.7;
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-fmodule-map-file=\"${SRCROOT}/MeetTalk/Supporting Files/MeetTalk.modulemap\"",
+					"-fmodule-map-file=\"${PODS_ROOT}/Headers/Public/AFNetworking/AFNetworking.modulemap\"",
+					"-fmodule-map-file=\"${PODS_ROOT}/Headers/Public/JSONModel/JSONModel.modulemap\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/PodAsset\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/Realm\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/SDWebImage\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/SocketRocket\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/JSONModel\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/TapTalk\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/ZSWTappableLabel\"",
+					"-iframework",
+					"\"${PODS_ROOT}/GoogleMaps/Base/Frameworks\"",
+					"-iframework",
+					"\"${PODS_ROOT}/GoogleMaps/Maps/Frameworks\"",
+					"-iframework",
+					"\"${PODS_ROOT}/GooglePlaces/Frameworks\"",
+					"-iframework",
+					"\"${PODS_ROOT}/JitsiMeetSDK/Frameworks\"",
+					"-iframework",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/JitsiMeetSDK\"",
+					"-iframework",
+					"\"${PODS_ROOT}/Realm/core\"",
+				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -D COCOAPODS -Xcc -Wno-error=non-modular-include-in-framework-module  -Xcc -fmodule-map-file=\"${SRCROOT}/MeetTalk/Supporting Files/MeetTalk.modulemap\" -Xcc -fmodule-map-file=\"${PODS_ROOT}/Headers/Public/AFNetworking/AFNetworking.modulemap\" -Xcc -fmodule-map-file=\"${PODS_ROOT}/Headers/Public/JSONModel/JSONModel.modulemap\"";
 				PRODUCT_BUNDLE_IDENTIFIER = io.taptalk.MeetTalk;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -619,8 +705,44 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.6;
-				OTHER_SWIFT_FLAGS = "$(inherited) -D COCOAPODS -Xcc -Wno-error=non-modular-include-in-framework-module -Xcc -fmodule-map-file=\"${PODS_ROOT}/Headers/Public/AFNetworking/AFNetworking.modulemap\" -Xcc -fmodule-map-file=\"${PODS_ROOT}/Headers/Public/JSONModel/JSONModel.modulemap\"";
+				MARKETING_VERSION = 0.0.7;
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-fmodule-map-file=\"${SRCROOT}/MeetTalk/Supporting Files/MeetTalk.modulemap\"",
+					"-fmodule-map-file=\"${PODS_ROOT}/Headers/Public/AFNetworking/AFNetworking.modulemap\"",
+					"-fmodule-map-file=\"${PODS_ROOT}/Headers/Public/JSONModel/JSONModel.modulemap\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/PodAsset\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/Realm\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/SDWebImage\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/SocketRocket\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/JSONModel\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/TapTalk\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/ZSWTappableLabel\"",
+					"-iframework",
+					"\"${PODS_ROOT}/GoogleMaps/Base/Frameworks\"",
+					"-iframework",
+					"\"${PODS_ROOT}/GoogleMaps/Maps/Frameworks\"",
+					"-iframework",
+					"\"${PODS_ROOT}/GooglePlaces/Frameworks\"",
+					"-iframework",
+					"\"${PODS_ROOT}/JitsiMeetSDK/Frameworks\"",
+					"-iframework",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/JitsiMeetSDK\"",
+					"-iframework",
+					"\"${PODS_ROOT}/Realm/core\"",
+				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -D COCOAPODS -Xcc -Wno-error=non-modular-include-in-framework-module  -Xcc -fmodule-map-file=\"${SRCROOT}/MeetTalk/Supporting Files/MeetTalk.modulemap\" -Xcc -fmodule-map-file=\"${PODS_ROOT}/Headers/Public/AFNetworking/AFNetworking.modulemap\" -Xcc -fmodule-map-file=\"${PODS_ROOT}/Headers/Public/JSONModel/JSONModel.modulemap\"";
 				PRODUCT_BUNDLE_IDENTIFIER = io.taptalk.MeetTalk;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;

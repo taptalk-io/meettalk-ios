@@ -10,6 +10,8 @@
 #import <UIKit/UIKit.h>
 #import <CommonCrypto/CommonDigest.h>
 #import <CoreLocation/CoreLocation.h>
+#import "TAPMessageModel.h"
+#import "TAPUserModel.h"
 #include <sys/types.h>
 #include <sys/sysctl.h>
 

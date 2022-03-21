@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, weak) NSString *roomID;
 
-- (void)joinConferenceTest;
+- (void)joinConferenceTest:(NSString *)roomID;
 
 @end
 

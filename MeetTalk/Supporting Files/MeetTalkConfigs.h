@@ -14,7 +14,7 @@
 #define CONFERENCE_INFO @"conference/info"
 
 // Call Message Type
-#define CALL_MESSAGE_TYPE @"8001"
+#define CALL_MESSAGE_TYPE 8001
 
 // Conference Info Key
 #define CONFERENCE_MESSAGE_DATA @"meetTalkConferenceInfo"
@@ -25,7 +25,7 @@
 #define PARTICIPANT @"participant"
 
 // Url
-#define MEET_URL @"meet-taptalk-io"
+#define MEET_URL @"https://meet.taptalk.io"
 #define MEET_ROOM_ID_PREFIX @"meet-taptalk-io"
 
 // Value
