@@ -26,11 +26,11 @@ THE SOFTWARE.
 
 ## GoogleMaps
 
-Copyright 2021 Google
+Copyright 2022 Google
 
 ## GooglePlaces
 
-Copyright 2021 Google
+Copyright 2022 Google
 
 ## JSONModel
 

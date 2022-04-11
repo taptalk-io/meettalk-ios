@@ -17,6 +17,8 @@
 		0A0808F627E2F7D800F658B2 /* MeetTalkParticipantInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A0808F427E2F7D800F658B2 /* MeetTalkParticipantInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0A0808F727E2F7D800F658B2 /* MeetTalkParticipantInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0808F527E2F7D800F658B2 /* MeetTalkParticipantInfo.m */; };
 		0A2C410627CF832C004AD641 /* MeetTalk.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A2C410527CF832C004AD641 /* MeetTalk.m */; };
+		0A9675F827EB1393006CD5DC /* MeetTalkCallManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A9675F627EB1393006CD5DC /* MeetTalkCallManager.h */; };
+		0A9675F927EB1393006CD5DC /* MeetTalkCallManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A9675F727EB1393006CD5DC /* MeetTalkCallManager.m */; };
 		0AC9AFA327CE25E2006A2575 /* MeetTalk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AC9AF9A27CE25E2006A2575 /* MeetTalk.framework */; };
 		0AC9AFA827CE25E2006A2575 /* MeetTalkTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AC9AFA727CE25E2006A2575 /* MeetTalkTests.m */; };
 		0AC9AFA927CE25E2006A2575 /* MeetTalk.h in Headers */ = {isa = PBXBuildFile; fileRef = 0AC9AF9D27CE25E2006A2575 /* MeetTalk.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -53,6 +55,8 @@
 		0A0808F427E2F7D800F658B2 /* MeetTalkParticipantInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetTalkParticipantInfo.h; sourceTree = "<group>"; };
 		0A0808F527E2F7D800F658B2 /* MeetTalkParticipantInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeetTalkParticipantInfo.m; sourceTree = "<group>"; };
 		0A2C410527CF832C004AD641 /* MeetTalk.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeetTalk.m; sourceTree = "<group>"; };
+		0A9675F627EB1393006CD5DC /* MeetTalkCallManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetTalkCallManager.h; sourceTree = "<group>"; };
+		0A9675F727EB1393006CD5DC /* MeetTalkCallManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeetTalkCallManager.m; sourceTree = "<group>"; };
 		0AC9AF9A27CE25E2006A2575 /* MeetTalk.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MeetTalk.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AC9AF9D27CE25E2006A2575 /* MeetTalk.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetTalk.h; sourceTree = "<group>"; };
 		0AC9AFA227CE25E2006A2575 /* MeetTalkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MeetTalkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -153,6 +157,8 @@
 			children = (
 				0A0808E927E1ED4D00F658B2 /* MeetTalkStyleManager.h */,
 				0A0808EA27E1ED4D00F658B2 /* MeetTalkStyleManager.m */,
+				0A9675F627EB1393006CD5DC /* MeetTalkCallManager.h */,
+				0A9675F727EB1393006CD5DC /* MeetTalkCallManager.m */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -223,6 +229,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A9675F827EB1393006CD5DC /* MeetTalkCallManager.h in Headers */,
 				0AF7438D27D224E3005660EB /* MeetTalkCallViewController.h in Headers */,
 				0AF7438927D20669005660EB /* MeetTalkStyle.h in Headers */,
 				0AF7438627D20650005660EB /* MeetTalkConfigs.h in Headers */,
@@ -445,6 +452,7 @@
 				0A2C410627CF832C004AD641 /* MeetTalk.m in Sources */,
 				0A0808F727E2F7D800F658B2 /* MeetTalkParticipantInfo.m in Sources */,
 				0AF7438E27D224E3005660EB /* MeetTalkCallViewController.m in Sources */,
+				0A9675F927EB1393006CD5DC /* MeetTalkCallManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -627,7 +635,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.8;
+				MARKETING_VERSION = 0.1.0;
 				OTHER_CFLAGS = (
 					"$(inherited)",
 					"-fmodule-map-file=\"${SRCROOT}/MeetTalk/Supporting Files/MeetTalk.modulemap\"",
@@ -701,7 +709,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.8;
+				MARKETING_VERSION = 0.1.0;
 				OTHER_CFLAGS = (
 					"$(inherited)",
 					"-fmodule-map-file=\"${SRCROOT}/MeetTalk/Supporting Files/MeetTalk.modulemap\"",

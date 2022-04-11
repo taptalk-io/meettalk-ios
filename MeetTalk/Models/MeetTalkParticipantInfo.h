@@ -18,8 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *role;
 @property (nonatomic, strong) NSNumber *leaveTime;
 @property (nonatomic, strong) NSNumber *lastUpdated;
-@property (nonatomic) BOOL *isAudioMuted;
-@property (nonatomic) BOOL *isVideoMuted;
+@property (nonatomic) BOOL isAudioMuted;
+@property (nonatomic) BOOL isVideoMuted;
 
 @end
 

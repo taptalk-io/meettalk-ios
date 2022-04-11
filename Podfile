@@ -8,7 +8,7 @@ def meettalk_pods
   pod 'JSONModel', '~> 1.1', :modular_headers => true
   pod 'PodAsset'
   pod 'SDWebImage'
-  pod 'JitsiMeetSDK', '3.7.0'
+  pod 'JitsiMeetSDK', '5.0.2'
 end
 
 target 'MeetTalk' do

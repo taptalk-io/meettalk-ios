@@ -307,6 +307,7 @@
 
 - (void)callButtonDidTapped {
     if ([self.delegate respondsToSelector:@selector(callChatBubbleCallButtonDidTapped:)]) {
+        UIViewController *parentViewController = [self parentViewController];
         [self.delegate callChatBubbleCallButtonDidTapped:self.message];
     }
 }
@@ -332,6 +333,17 @@
             } afterDelay:1.0f];
         }];
     } afterDelay:0.2f];
+}
+
+- (UIViewController *_Nullable)parentViewController {
+    UIResponder *responder = [self nextResponder];
+    while (responder != nil) {
+        if ([responder isKindOfClass:[UIViewController class]]) {
+            return (UIViewController *)responder;
+        }
+        responder = [responder nextResponder];
+    }
+    return nil;
 }
 
 @end

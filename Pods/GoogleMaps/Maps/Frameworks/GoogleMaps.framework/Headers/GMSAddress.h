@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Some of the fields may be nil, indicating they are not present.
  */
-@interface GMSAddress : NSObject<NSCopying>
+@interface GMSAddress : NSObject <NSCopying, NSSecureCoding>
 
 /** Location, or kLocationCoordinate2DInvalid if unknown. */
 @property(nonatomic, readonly) CLLocationCoordinate2D coordinate;

@@ -11,7 +11,32 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MeetTalkCallViewController">
             <connections>
-                <outlet property="jitsiMeetView" destination="tVQ-eH-Eg6" id="QPa-gH-GeO"/>
+                <outlet property="backgroundOverlayGradientView" destination="a4J-Qr-zWz" id="t5H-e3-pN0"/>
+                <outlet property="backgroundOverlaySolidView" destination="4co-y6-uw3" id="Gwh-fq-e1U"/>
+                <outlet property="backgroundView" destination="0ho-dV-V9k" id="rme-S8-beU"/>
+                <outlet property="buttonContainerBackgroundView" destination="4ks-KR-NSI" id="WBC-Qs-xYE"/>
+                <outlet property="buttonContainerView" destination="Jpe-if-7Eb" id="gLX-cl-rwD"/>
+                <outlet property="callDurationStatusLabel" destination="YMt-ZN-Bs7" id="Imx-Jw-ORd"/>
+                <outlet property="hangUpButton" destination="wXB-bY-vcW" id="Qsy-Ua-Sfs"/>
+                <outlet property="hangUpButtonContainerView" destination="53k-93-enY" id="2IY-X7-FLT"/>
+                <outlet property="hangUpButtonContainerViewLeadingConstraint" destination="28g-q4-JlM" id="bOC-QX-xVD"/>
+                <outlet property="hangUpButtonContainerViewTrailingConstraint" destination="adw-mx-ynr" id="Og1-hP-WF8"/>
+                <outlet property="hangUpIconImageView" destination="3PO-SZ-wZo" id="x7M-Tp-7lC"/>
+                <outlet property="innerButtonContainerView" destination="anh-bz-85b" id="Z2I-cK-tVI"/>
+                <outlet property="innerButtonContainerViewBottomConstraint" destination="0Jv-Bv-hJS" id="yku-b9-WA6"/>
+                <outlet property="labelContainerView" destination="llq-Te-QHG" id="gCx-mu-X03"/>
+                <outlet property="labelContainerViewTopConstraint" destination="zIg-V3-8dw" id="MP6-VE-K1v"/>
+                <outlet property="meetTalkCallView" destination="tVQ-eH-Eg6" id="QPa-gH-GeO"/>
+                <outlet property="profilePictureImageView" destination="xgG-vK-f8x" id="xHV-bo-oDF"/>
+                <outlet property="roomDisplayNameLabel" destination="Ub4-Ze-tJr" id="CsC-4K-9Df"/>
+                <outlet property="toggleAudioMuteButton" destination="04g-ur-kqU" id="AJW-dP-knM"/>
+                <outlet property="toggleAudioMuteButtonContainerView" destination="MHj-W5-6DK" id="HnN-eS-18n"/>
+                <outlet property="toggleAudioMuteButtonContainerViewLeadingConstraint" destination="YUA-wA-bZL" id="Ui9-lI-v3q"/>
+                <outlet property="toggleAudioMuteIconImageView" destination="keG-ze-nr7" id="5gE-KN-26R"/>
+                <outlet property="toggleVideoMuteButton" destination="jHn-uf-OHL" id="Hx4-CH-2lL"/>
+                <outlet property="toggleVideoMuteButtonContainerView" destination="iFg-J9-1MN" id="V2U-IU-4x2"/>
+                <outlet property="toggleVideoMuteButtonContainerViewLeadingConstraint" destination="73v-ny-fXl" id="unF-YG-gkT"/>
+                <outlet property="toggleVideoMuteIconImageView" destination="YgI-3B-s0L" id="SgD-Ia-vUW"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -20,26 +45,216 @@
             <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tVQ-eH-Eg6" customClass="JitsiMeetView">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0ho-dV-V9k" userLabel="Background View">
                     <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </view>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="xgG-vK-f8x" userLabel="Profile Picture Image View" customClass="TAPImageView">
+                    <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </imageView>
+                <view alpha="0.0" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tVQ-eH-Eg6" customClass="JitsiMeetView">
+                    <rect key="frame" x="0.0" y="44" width="414" height="650"/>
                     <viewLayoutGuide key="safeArea" id="YRj-4Q-daR"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                </view>
+                <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a4J-Qr-zWz" userLabel="Background Overlay Gradient View">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </view>
+                <view alpha="0.20000000000000001" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4co-y6-uw3" userLabel="Background Overlay Solid View">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                    <color key="backgroundColor" red="0.098039215686274508" green="0.098039215686274508" blue="0.098039215686274508" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="llq-Te-QHG" userLabel="Label Container View">
+                    <rect key="frame" x="16" y="124" width="382" height="50"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Room Display Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ub4-Ze-tJr" userLabel="Room Display Name Label">
+                            <rect key="frame" x="0.0" y="0.0" width="382" height="21"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Connecting..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YMt-ZN-Bs7" userLabel="Call Duration Status Label">
+                            <rect key="frame" x="0.0" y="29" width="382" height="21"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="YMt-ZN-Bs7" firstAttribute="top" secondItem="Ub4-Ze-tJr" secondAttribute="bottom" constant="8" id="6ve-6A-y3s"/>
+                        <constraint firstAttribute="bottom" secondItem="YMt-ZN-Bs7" secondAttribute="bottom" id="71c-Dz-fNx"/>
+                        <constraint firstItem="YMt-ZN-Bs7" firstAttribute="trailing" secondItem="Ub4-Ze-tJr" secondAttribute="trailing" id="Cuo-ZF-Ybo"/>
+                        <constraint firstAttribute="trailing" secondItem="Ub4-Ze-tJr" secondAttribute="trailing" id="Pu4-i9-fe6"/>
+                        <constraint firstItem="Ub4-Ze-tJr" firstAttribute="top" secondItem="llq-Te-QHG" secondAttribute="top" id="gpF-qC-w2Y"/>
+                        <constraint firstItem="Ub4-Ze-tJr" firstAttribute="leading" secondItem="llq-Te-QHG" secondAttribute="leading" id="ibH-Zl-oXO"/>
+                        <constraint firstItem="YMt-ZN-Bs7" firstAttribute="leading" secondItem="Ub4-Ze-tJr" secondAttribute="leading" id="qlP-qU-4ro"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jpe-if-7Eb" userLabel="Button Container View">
+                    <rect key="frame" x="0.0" y="694" width="414" height="168"/>
+                    <subviews>
+                        <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4ks-KR-NSI" userLabel="Button Container Background View">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="168"/>
+                            <color key="backgroundColor" red="0.098039215690000001" green="0.098039215690000001" blue="0.098039215690000001" alpha="1" colorSpace="calibratedRGB"/>
+                        </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="anh-bz-85b" userLabel="Inner Button Container View">
+                            <rect key="frame" x="0.0" y="24" width="414" height="64"/>
+                            <subviews>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iFg-J9-1MN" userLabel="Toggle Video Mute Button Container View">
+                                    <rect key="frame" x="32" y="0.0" width="64" height="64"/>
+                                    <subviews>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="MeetTalkIconVideoCameraWhite" translatesAutoresizingMaskIntoConstraints="NO" id="YgI-3B-s0L" userLabel="Toggle Video Mute Image View">
+                                            <rect key="frame" x="16" y="16" width="32" height="32"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="32" id="NSd-wk-oT4"/>
+                                                <constraint firstAttribute="height" constant="32" id="kMz-ML-dXq"/>
+                                            </constraints>
+                                        </imageView>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jHn-uf-OHL" userLabel="Toggle Video Mute Button">
+                                            <rect key="frame" x="0.0" y="0.0" width="64" height="64"/>
+                                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        </button>
+                                    </subviews>
+                                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <constraints>
+                                        <constraint firstItem="YgI-3B-s0L" firstAttribute="centerX" secondItem="iFg-J9-1MN" secondAttribute="centerX" id="5ZD-3d-2EW"/>
+                                        <constraint firstItem="YgI-3B-s0L" firstAttribute="centerY" secondItem="iFg-J9-1MN" secondAttribute="centerY" id="9ox-FM-uFg"/>
+                                        <constraint firstItem="jHn-uf-OHL" firstAttribute="leading" secondItem="iFg-J9-1MN" secondAttribute="leading" id="Ica-5g-I8N"/>
+                                        <constraint firstAttribute="height" constant="64" id="JY0-aw-xUO"/>
+                                        <constraint firstAttribute="bottom" secondItem="jHn-uf-OHL" secondAttribute="bottom" id="PdC-hh-ANS"/>
+                                        <constraint firstItem="jHn-uf-OHL" firstAttribute="top" secondItem="iFg-J9-1MN" secondAttribute="top" id="qK6-Np-ZRa"/>
+                                        <constraint firstAttribute="trailing" secondItem="jHn-uf-OHL" secondAttribute="trailing" id="wPc-vG-gkx"/>
+                                    </constraints>
+                                </view>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MHj-W5-6DK" userLabel="Toggle Audio Mute Button Container View">
+                                    <rect key="frame" x="175" y="0.0" width="64" height="64"/>
+                                    <subviews>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="MeetTalkIconMicWhite" translatesAutoresizingMaskIntoConstraints="NO" id="keG-ze-nr7" userLabel="Toggle Audio Mute Image View">
+                                            <rect key="frame" x="16" y="16" width="32" height="32"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="32" id="o6x-3t-Xs3"/>
+                                                <constraint firstAttribute="width" constant="32" id="tcT-G4-yD8"/>
+                                            </constraints>
+                                        </imageView>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="04g-ur-kqU" userLabel="Toggle Audio Mute Button">
+                                            <rect key="frame" x="0.0" y="0.0" width="64" height="64"/>
+                                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        </button>
+                                    </subviews>
+                                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="64" id="7gB-u4-GfH"/>
+                                        <constraint firstItem="04g-ur-kqU" firstAttribute="top" secondItem="MHj-W5-6DK" secondAttribute="top" id="7t0-kc-zOc"/>
+                                        <constraint firstAttribute="bottom" secondItem="04g-ur-kqU" secondAttribute="bottom" id="EeG-iw-rBj"/>
+                                        <constraint firstAttribute="trailing" secondItem="04g-ur-kqU" secondAttribute="trailing" id="OIH-zx-aUy"/>
+                                        <constraint firstItem="keG-ze-nr7" firstAttribute="centerY" secondItem="MHj-W5-6DK" secondAttribute="centerY" id="UjG-3P-qkc"/>
+                                        <constraint firstItem="keG-ze-nr7" firstAttribute="centerX" secondItem="MHj-W5-6DK" secondAttribute="centerX" id="c2P-sF-IPe"/>
+                                        <constraint firstItem="04g-ur-kqU" firstAttribute="leading" secondItem="MHj-W5-6DK" secondAttribute="leading" id="u9i-yI-C36"/>
+                                    </constraints>
+                                </view>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="53k-93-enY" userLabel="Hang Up Button Container View">
+                                    <rect key="frame" x="318" y="0.0" width="64" height="64"/>
+                                    <subviews>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="MeetTalkIconHangUpWhite" translatesAutoresizingMaskIntoConstraints="NO" id="3PO-SZ-wZo" userLabel="Hang Up Icon Image View">
+                                            <rect key="frame" x="16" y="16" width="32" height="32"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="32" id="48H-SI-u8Y"/>
+                                                <constraint firstAttribute="height" constant="32" id="f8K-mi-WgR"/>
+                                            </constraints>
+                                        </imageView>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wXB-bY-vcW" userLabel="Hang Up Button">
+                                            <rect key="frame" x="0.0" y="0.0" width="64" height="64"/>
+                                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        </button>
+                                    </subviews>
+                                    <color key="backgroundColor" systemColor="systemRedColor"/>
+                                    <constraints>
+                                        <constraint firstAttribute="bottom" secondItem="wXB-bY-vcW" secondAttribute="bottom" id="1Lb-aa-s1y"/>
+                                        <constraint firstAttribute="trailing" secondItem="wXB-bY-vcW" secondAttribute="trailing" id="4ks-YO-ogm"/>
+                                        <constraint firstItem="wXB-bY-vcW" firstAttribute="top" secondItem="53k-93-enY" secondAttribute="top" id="8dG-yR-brn"/>
+                                        <constraint firstItem="wXB-bY-vcW" firstAttribute="leading" secondItem="53k-93-enY" secondAttribute="leading" id="CM7-Kf-MKm"/>
+                                        <constraint firstItem="3PO-SZ-wZo" firstAttribute="centerX" secondItem="53k-93-enY" secondAttribute="centerX" id="Id4-un-6yP"/>
+                                        <constraint firstAttribute="height" constant="64" id="NpF-nD-rqe"/>
+                                        <constraint firstItem="3PO-SZ-wZo" firstAttribute="centerY" secondItem="53k-93-enY" secondAttribute="centerY" id="iYc-N4-vXf"/>
+                                        <constraint firstAttribute="width" constant="64" id="tr7-Nl-MdG"/>
+                                    </constraints>
+                                </view>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstItem="MHj-W5-6DK" firstAttribute="top" secondItem="iFg-J9-1MN" secondAttribute="top" id="1mO-rd-jPh"/>
+                                <constraint firstItem="53k-93-enY" firstAttribute="leading" secondItem="MHj-W5-6DK" secondAttribute="trailing" constant="79" id="28g-q4-JlM"/>
+                                <constraint firstItem="iFg-J9-1MN" firstAttribute="leading" secondItem="anh-bz-85b" secondAttribute="leading" constant="32" id="73v-ny-fXl"/>
+                                <constraint firstItem="MHj-W5-6DK" firstAttribute="width" secondItem="iFg-J9-1MN" secondAttribute="width" id="Ff2-5e-DPd"/>
+                                <constraint firstItem="53k-93-enY" firstAttribute="top" secondItem="iFg-J9-1MN" secondAttribute="top" id="Maa-fd-KtF"/>
+                                <constraint firstItem="53k-93-enY" firstAttribute="bottom" secondItem="iFg-J9-1MN" secondAttribute="bottom" id="RZy-r3-uFB"/>
+                                <constraint firstItem="53k-93-enY" firstAttribute="top" secondItem="anh-bz-85b" secondAttribute="top" id="Rvg-H2-y71"/>
+                                <constraint firstItem="MHj-W5-6DK" firstAttribute="leading" secondItem="iFg-J9-1MN" secondAttribute="trailing" constant="79" id="YUA-wA-bZL"/>
+                                <constraint firstAttribute="trailing" secondItem="53k-93-enY" secondAttribute="trailing" priority="750" constant="32" id="adw-mx-ynr"/>
+                                <constraint firstItem="53k-93-enY" firstAttribute="width" secondItem="iFg-J9-1MN" secondAttribute="width" id="dUh-YI-AAj"/>
+                                <constraint firstItem="MHj-W5-6DK" firstAttribute="bottom" secondItem="iFg-J9-1MN" secondAttribute="bottom" id="u18-fn-c3t"/>
+                                <constraint firstAttribute="bottom" secondItem="53k-93-enY" secondAttribute="bottom" id="wWj-I0-irc"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="anh-bz-85b" secondAttribute="bottom" constant="80" id="0Jv-Bv-hJS"/>
+                        <constraint firstItem="4ks-KR-NSI" firstAttribute="leading" secondItem="Jpe-if-7Eb" secondAttribute="leading" id="1oa-pL-sNZ"/>
+                        <constraint firstItem="4ks-KR-NSI" firstAttribute="top" secondItem="Jpe-if-7Eb" secondAttribute="top" id="LgY-Qc-At5"/>
+                        <constraint firstAttribute="trailing" secondItem="anh-bz-85b" secondAttribute="trailing" id="M22-Wl-Per"/>
+                        <constraint firstAttribute="trailing" secondItem="4ks-KR-NSI" secondAttribute="trailing" id="OM5-UM-pt7"/>
+                        <constraint firstItem="anh-bz-85b" firstAttribute="leading" secondItem="Jpe-if-7Eb" secondAttribute="leading" id="UQc-GA-pjY"/>
+                        <constraint firstAttribute="bottom" secondItem="4ks-KR-NSI" secondAttribute="bottom" id="i3S-mJ-DLf"/>
+                        <constraint firstItem="anh-bz-85b" firstAttribute="top" secondItem="Jpe-if-7Eb" secondAttribute="top" constant="24" id="rQE-yp-faY"/>
+                    </constraints>
                 </view>
             </subviews>
             <viewLayoutGuide key="safeArea" id="Q5M-cg-NOt"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
                 <constraint firstItem="tVQ-eH-Eg6" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" id="1ag-nd-OS8"/>
+                <constraint firstItem="0ho-dV-V9k" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" id="3Zj-Gt-CET"/>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="xgG-vK-f8x" secondAttribute="trailing" id="7va-0l-lVr"/>
+                <constraint firstItem="a4J-Qr-zWz" firstAttribute="trailing" secondItem="4co-y6-uw3" secondAttribute="trailing" id="J57-pH-8QU"/>
+                <constraint firstItem="0ho-dV-V9k" firstAttribute="top" secondItem="Q5M-cg-NOt" secondAttribute="top" id="JhV-j5-4om"/>
+                <constraint firstItem="a4J-Qr-zWz" firstAttribute="leading" secondItem="4co-y6-uw3" secondAttribute="leading" id="LDD-uF-9gF"/>
+                <constraint firstItem="4co-y6-uw3" firstAttribute="trailing" secondItem="Q5M-cg-NOt" secondAttribute="trailing" id="LRD-qL-hcs"/>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="bottom" secondItem="xgG-vK-f8x" secondAttribute="bottom" id="M72-lt-CYS"/>
                 <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="tVQ-eH-Eg6" secondAttribute="trailing" id="POq-rT-Ff6"/>
-                <constraint firstItem="Q5M-cg-NOt" firstAttribute="bottom" secondItem="tVQ-eH-Eg6" secondAttribute="bottom" id="rlj-k8-6UT"/>
+                <constraint firstAttribute="bottom" secondItem="4co-y6-uw3" secondAttribute="bottom" id="UQG-ZZ-RW9"/>
+                <constraint firstItem="Jpe-if-7Eb" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" id="bVQ-bP-qeC"/>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="bottom" secondItem="Jpe-if-7Eb" secondAttribute="bottom" id="drP-pZ-yjo"/>
+                <constraint firstItem="4co-y6-uw3" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="dwa-CT-eyI"/>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="0ho-dV-V9k" secondAttribute="trailing" id="e5s-hT-YSt"/>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="Jpe-if-7Eb" secondAttribute="trailing" id="fJb-1A-kH6"/>
+                <constraint firstItem="4co-y6-uw3" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" id="h00-TZ-I3N"/>
+                <constraint firstItem="a4J-Qr-zWz" firstAttribute="top" secondItem="4co-y6-uw3" secondAttribute="top" id="iU0-Rc-WAV"/>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="bottom" secondItem="0ho-dV-V9k" secondAttribute="bottom" id="jbJ-UJ-6dB"/>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="llq-Te-QHG" secondAttribute="trailing" constant="16" id="kyc-Rj-4JQ"/>
+                <constraint firstItem="xgG-vK-f8x" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" id="olW-mj-8Vt"/>
+                <constraint firstItem="a4J-Qr-zWz" firstAttribute="bottom" secondItem="4co-y6-uw3" secondAttribute="bottom" id="rf7-kS-nfW"/>
+                <constraint firstItem="Jpe-if-7Eb" firstAttribute="top" secondItem="tVQ-eH-Eg6" secondAttribute="bottom" id="rlj-k8-6UT"/>
                 <constraint firstItem="tVQ-eH-Eg6" firstAttribute="top" secondItem="Q5M-cg-NOt" secondAttribute="top" id="yDU-5E-XdB"/>
+                <constraint firstItem="xgG-vK-f8x" firstAttribute="top" secondItem="Q5M-cg-NOt" secondAttribute="top" id="yap-aQ-t83"/>
+                <constraint firstItem="llq-Te-QHG" firstAttribute="top" secondItem="Q5M-cg-NOt" secondAttribute="top" constant="80" id="zIg-V3-8dw"/>
+                <constraint firstItem="llq-Te-QHG" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" constant="16" id="zvT-26-dtY"/>
             </constraints>
             <point key="canvasLocation" x="132" y="82"/>
         </view>
     </objects>
     <resources>
+        <image name="MeetTalkIconHangUpWhite" width="40" height="40"/>
+        <image name="MeetTalkIconMicWhite" width="32" height="32"/>
+        <image name="MeetTalkIconVideoCameraWhite" width="32" height="32"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

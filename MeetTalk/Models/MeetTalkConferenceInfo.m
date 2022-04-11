@@ -13,7 +13,16 @@
 + (MeetTalkConferenceInfo * _Nullable)fromMessageModel:(TAPMessageModel *)message {
     @try {
         if (message.data != nil && [message.data objectForKey:CONFERENCE_MESSAGE_DATA] != nil) {
-            NSDictionary *conferenceInfoDictionary = [message.data objectForKey:CONFERENCE_MESSAGE_DATA];
+            NSMutableDictionary *conferenceInfoDictionary = [[message.data objectForKey:CONFERENCE_MESSAGE_DATA] mutableCopy];
+            NSMutableArray *participantsDictionaryArray = [conferenceInfoDictionary objectForKey:@"participants"];
+            NSMutableArray *participantsArray = [NSMutableArray array];
+            if (participantsDictionaryArray != nil && participantsDictionaryArray.count > 0) {
+                for (NSDictionary *participantsDictionary in participantsDictionaryArray) {
+                    [participantsArray addObject:[[MeetTalkParticipantInfo alloc] initWithDictionary:participantsDictionary error:nil]];
+                }
+            }
+            [conferenceInfoDictionary removeObjectForKey:@"participants"];
+            [conferenceInfoDictionary setObject:participantsArray forKey:@"participants"];
             return [[MeetTalkConferenceInfo alloc] initWithDictionary:conferenceInfoDictionary error:nil];
         }
         return nil;
@@ -25,7 +34,7 @@
 
 - (TAPMessageModel *)attachToMessage:(TAPMessageModel *)message {
     NSMutableDictionary *messageData;
-    if (message.data == nil) {
+    if (message.data != nil) {
         messageData = [message.data mutableCopy];
     }
     else {
@@ -37,7 +46,14 @@
         [messageData setObject:existingConferenceInfo forKey:CONFERENCE_MESSAGE_DATA];
     }
     else {
-        [messageData setObject:[self toDictionary] forKey:CONFERENCE_MESSAGE_DATA];
+        NSMutableDictionary *conferenceInfoDictionary = [[self toDictionary] mutableCopy];
+        NSMutableArray *participantsDictionaryArray = [NSMutableArray array];
+        for (MeetTalkParticipantInfo *participant in self.participants) {
+            [participantsDictionaryArray addObject:[participant toDictionary]];
+        }
+        [conferenceInfoDictionary removeObjectForKey:@"participants"];
+        [conferenceInfoDictionary setObject:participantsDictionaryArray forKey:@"participants"];
+        [messageData setObject:conferenceInfoDictionary forKey:CONFERENCE_MESSAGE_DATA];
     }
     message.data = messageData;
     return message;
@@ -76,13 +92,28 @@
 }
 
 - (void)updateParticipant:(MeetTalkParticipantInfo *)updatedParticipant {
-    MeetTalkParticipantInfo *existingParticipant = [self.participants objectForKey:updatedParticipant.userID];
-    if (existingParticipant == nil ||
-        (existingParticipant != nil &&
-        existingParticipant.lastUpdated.longValue <= updatedParticipant.lastUpdated.longValue)
-    ) {
-        [self.participants setObject:updatedParticipant forKey:updatedParticipant.userID];
+    // TODO: VALUE NOT UPDATED?
+    BOOL isExistingParticipant = NO;
+    NSMutableArray<MeetTalkParticipantInfo *> *participantsCopy = [self.participants mutableCopy];
+    for (MeetTalkParticipantInfo *participant in participantsCopy) {
+        if ([participant.userID isEqualToString:updatedParticipant.userID]) {
+            isExistingParticipant = YES;
+            if (participant.lastUpdated.longValue <= updatedParticipant.lastUpdated.longValue) {
+                [self.participants replaceObjectAtIndex:[participantsCopy indexOfObject:participant] withObject:updatedParticipant];
+            }
+            break;
+        }
     }
+    if (!isExistingParticipant) {
+        [self.participants addObject:updatedParticipant];
+    }
+//    MeetTalkParticipantInfo *existingParticipant = [self.participants objectForKey:updatedParticipant.userID];
+//    if (existingParticipant == nil ||
+//        (existingParticipant != nil &&
+//        existingParticipant.lastUpdated.longValue <= updatedParticipant.lastUpdated.longValue)
+//    ) {
+//        [self.participants setObject:updatedParticipant forKey:updatedParticipant.userID];
+//    }
 }
 
 - (MeetTalkConferenceInfo *)copy {

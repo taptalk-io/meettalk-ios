@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSNumber *callEndedTime;
 @property (nonatomic, strong) NSNumber *callDuration;
 @property (nonatomic, strong) NSNumber *lastUpdated;
-@property (nonatomic, strong) NSMutableDictionary<NSString *, MeetTalkParticipantInfo *> *participants;
+@property (nonatomic, strong) NSMutableArray<MeetTalkParticipantInfo *> *participants;
 
 + (MeetTalkConferenceInfo * _Nullable)fromMessageModel:(TAPMessageModel *)message;
 - (TAPMessageModel *)attachToMessage:(TAPMessageModel *)message;

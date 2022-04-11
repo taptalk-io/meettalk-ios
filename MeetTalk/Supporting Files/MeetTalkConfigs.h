@@ -26,10 +26,10 @@
 
 // Url
 #define MEET_URL @"https://meet.taptalk.io"
-#define MEET_ROOM_ID_PREFIX @"meet-taptalk-io"
+#define MEET_ROOM_ID_PREFIX @"meet-taptalk-io-"
 
 // Value
-#define INCOMING_CALL_TIMEOUT_DURATION 120
+#define INCOMING_CALL_TIMEOUT_DURATION 120000L
 
 // Jitsi Meet Broadcast Event Type
 #define CONFERENCE_JOINED @"org.jitsi.meet.CONFERENCE_JOINED"
