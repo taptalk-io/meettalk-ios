@@ -36,7 +36,23 @@
 }
 
 + (NSBundle *_Nullable)bundle {
-    return [PodAsset bundleForPod:@"MeetTalk"];
+    // Search all bundles
+    for (NSBundle *bundle in [NSBundle allBundles]) {
+        NSString *bundlePath = [bundle pathForResource:@"MeetTalk" ofType:@"bundle"];
+        if (bundlePath) {
+            return [NSBundle bundleWithPath:bundlePath];
+        }
+    }
+
+    // Search all frameworks
+    for (NSBundle *bundle in [NSBundle allFrameworks]) {
+        NSString *bundlePath = [bundle pathForResource:@"MeetTalk" ofType:@"bundle"];
+        if (bundlePath) {
+            return [NSBundle bundleWithPath:bundlePath];
+        }
+    }
+    
+    return nil;
 }
 
 - (id)init {

@@ -16,7 +16,6 @@
 #import "MeetTalkCallChatBubbleTableViewCell.h"
 #import "MeetTalkConfigs.h"
 #import "MeetTalkConferenceInfo.h"
-#import "PodAsset.h"
 
 //! Project version number for MeetTalk.
 FOUNDATION_EXPORT double MeetTalkVersionNumber;

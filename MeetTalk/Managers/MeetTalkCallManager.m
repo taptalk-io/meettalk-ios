@@ -8,10 +8,10 @@
 #import "MeetTalk.h"
 #import "MeetTalkCallManager.h"
 #import "MeetTalkConfigs.h"
-#import <TapTalk/TapTalk.h>
 #import <TapTalk/TAPConnectionManager.h>
 #import <TapTalk/TAPCoreMessageManager.h>
 #import <TapTalk/TAPUtil.h>
+#import <TapTalk/TAPTypes.h>
 #import <CallKit/CallKit.h>
 #import <CallKit/CXError.h>
 
