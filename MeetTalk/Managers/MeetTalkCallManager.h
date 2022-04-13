@@ -22,6 +22,7 @@ typedef NS_ENUM(NSInteger, MeetTalkCallState) {
     MeetTalkCallStateRinging = 2,
 };
 
+// TODO: REMOVE?
 @protocol MeetTalkCallManagerDelegate <NSObject>
 
 - (void)callDidAnswer;

@@ -149,13 +149,16 @@
     CXCallUpdate *update = [[CXCallUpdate alloc] init];
     update.remoteHandle = [[CXHandle alloc] initWithType:CXHandleTypePhoneNumber value:phoneNumber];
     __weak MeetTalkCallManager *weakSelf = self;
-    NSLog(@">>>> reportIncomingCallForUUID: %@", uuid);
     [self.provider reportNewIncomingCallWithUUID:uuid update:update completion:^(NSError * _Nullable error) {
         if (!error) {
-            NSLog(@">>>> reportIncomingCallForUUID: success");
+#ifdef DEBUG
+            NSLog(@">>>> reportIncomingCallForUUID: success %@", uuid);
+#endif
             weakSelf.currentCallUUID = uuid;
         } else {
+#ifdef DEBUG
             NSLog(@">>>> reportIncomingCallForUUID ERROR: %@", error.localizedDescription);
+#endif
             if (self.delegate && [self.delegate respondsToSelector:@selector(callDidFail)]) {
                 [self.delegate callDidFail];
             }
@@ -228,23 +231,18 @@
 #pragma mark - CXProviderDelegate
 
 - (void)providerDidReset:(CXProvider *)provider {
-    NSLog(@">>>> MeetTalkCallManager CXProviderDelegate providerDidReset:");
+
 }
 
 /// Called when the provider has been fully created and is ready to send actions and receive updates
 - (void)providerDidBegin:(CXProvider *)provider {
-    NSLog(@">>>> MeetTalkCallManager CXProviderDelegate providerDidBegin:");
+
 }
 
 // If provider:executeTransaction:error: returned NO, each perform*CallAction method is called sequentially for each action in the transaction
 - (void)provider:(CXProvider *)provider performStartCallAction:(CXStartCallAction *)action {
-    NSLog(@">>>> MeetTalkCallManager CXProviderDelegate performStartCallAction:");
     [self.provider reportOutgoingCallWithUUID:action.callUUID startedConnectingAtDate:nil];
     [self.provider reportOutgoingCallWithUUID:action.callUUID connectedAtDate:nil];
-    
-//    if (self.delegate && [self.delegate respondsToSelector:@selector(callDidAnswer)]) {
-//        [self.delegate callDidAnswer];
-//    }
     
     [action fulfill];
 }
@@ -252,7 +250,10 @@
 - (void)provider:(CXProvider *)provider performAnswerCallAction:(CXAnswerCallAction *)action {
     [self answerIncomingCall];
     
+#ifdef DEBUG
     NSLog(@">>>> MeetTalkCallManager CXProviderDelegate performAnswerCallAction:");
+#endif
+    
     if (self.delegate && [self.delegate respondsToSelector:@selector(callDidAnswer)]) {
         [self.delegate callDidAnswer];
     }
@@ -261,7 +262,10 @@
 }
 
 - (void)provider:(CXProvider *)provider performEndCallAction:(CXEndCallAction *)action {
+#ifdef DEBUG
     NSLog(@">>>> MeetTalkCallManager CXProviderDelegate performEndCallAction:");
+#endif
+    
     self.currentCallUUID = nil;
     [self clearPendingIncomingCall];
     
@@ -278,7 +282,7 @@
 }
 
 - (void)provider:(CXProvider *)provider performSetHeldCallAction:(CXSetHeldCallAction *)action {
-    NSLog(@">>>> MeetTalkCallManager CXProviderDelegate performSetHeldCallAction:");
+//    NSLog(@">>>> MeetTalkCallManager CXProviderDelegate performSetHeldCallAction:");
 //    if (action.isOnHold) {
 //
 //    }
@@ -293,28 +297,26 @@
 }
 
 - (void)provider:(CXProvider *)provider performSetMutedCallAction:(CXSetMutedCallAction *)action {
-    NSLog(@">>>> MeetTalkCallManager CXProviderDelegate performSetMutedCallAction:");
+
 }
 
 - (void)provider:(CXProvider *)provider performSetGroupCallAction:(CXSetGroupCallAction *)action {
-    NSLog(@">>>> MeetTalkCallManager CXProviderDelegate performSetGroupCallAction:");
+
 }
 
 - (void)provider:(CXProvider *)provider performPlayDTMFCallAction:(CXPlayDTMFCallAction *)action {
-    NSLog(@">>>> MeetTalkCallManager CXProviderDelegate performPlayDTMFCallAction:");
+
 }
 
 /// Called when an action was not performed in time and has been inherently failed. Depending on the action, this timeout may also force the call to end. An action that has already timed out should not be fulfilled or failed by the provider delegate
 - (void)provider:(CXProvider *)provider timedOutPerformingAction:(CXAction *)action {
     // React to the action timeout if necessary, such as showing an error UI.
-    NSLog(@">>>> MeetTalkCallManager CXProviderDelegate timedOutPerformingAction:");
+    
 }
 
 /// Called when the provider's audio session activation state changes.
 - (void)provider:(CXProvider *)provider didActivateAudioSession:(AVAudioSession *)audioSession {
-    //todo: start audio
     // Start call audio media, now that the audio session has been activated after having its priority boosted.
-    NSLog(@">>>> MeetTalkCallManager CXProviderDelegate didActivateAudioSession:");
 }
 
 - (void)provider:(CXProvider *)provider didDeactivateAudioSession:(AVAudioSession *)audioSession {
@@ -322,13 +324,15 @@
      Restart any non-call related audio now that the app's audio session has been
      de-activated after having its priority restored to normal.
      */
-    NSLog(@">>>> MeetTalkCallManager CXProviderDelegate didDeactivateAudioSession:");
 }
 
 #pragma mark - TAPConnectionManagerDelegate
 
 - (void)connectionManagerDidConnected {
+#ifdef DEBUG
     NSLog(@">>>> MeetTalkCallManager TAPConnectionManagerDelegate connectionManagerDidConnected:");
+#endif
+
     if (!self.shouldHandleConnectionManagerDelegate) {
         return;
     }
@@ -340,7 +344,10 @@
 }
 
 - (void)connectionManagerDidDisconnectedWithCode:(NSInteger)code reason:(NSString *)reason cleanClose:(BOOL)clean {
+#ifdef DEBUG
     NSLog(@">>>> MeetTalkCallManager TAPConnectionManagerDelegate connectionManagerDidDisconnectedWithCode:");
+#endif
+    
     if (!self.shouldHandleConnectionManagerDelegate) {
         return;
     }
@@ -436,9 +443,10 @@
     NSUUID *uuid = [NSUUID new];
     [self reportIncomingCallForUUID:uuid phoneNumber:phoneNumber];
     [self startMissedCallTimer];
+#ifdef DEBUG
     NSLog(@">>>> showIncomingCallWithMessage: %@ %@", uuid, phoneNumber);
+#endif
     
-
 //#ifdef DEBUG
 //    // TODO: TEST TO BYPASS INCOMING CALL
 //    [self answerIncomingCall];
@@ -451,13 +459,16 @@
     }
     CXCallController *callController = [[CXCallController alloc] init];
     CXEndCallAction *endCallAction = [[CXEndCallAction alloc] initWithCallUUID:self.currentCallUUID];
-    NSLog(@">>>> MeetTalkCallManager CXProviderDelegate dismissIncomingCall: %@", self.currentCallUUID);
     [callController requestTransactionWithAction:endCallAction completion:^(NSError * _Nullable error) {
         if (!error) {
+#ifdef DEBUG
             NSLog(@">>>> MeetTalkCallManager dismissIncomingCall: end call success");
+#endif
         }
         else {
+#ifdef DEBUG
             NSLog(@">>>> MeetTalkCallManager dismissIncomingCall: end call error %@", error.localizedDescription);
+#endif
         }
     }];
     [self clearPendingIncomingCall];
@@ -660,7 +671,9 @@
     [callViewController setDataWithConferenceOptions:options activeCallRoom:self.activeCallMessage.room activeConferenceInfo:self.activeConferenceInfo];
     [topViewController presentViewController:callViewController animated:YES completion:^{
     }];
+#ifdef DEBUG
     NSLog(@">>>> launchMeetTalkCallViewController conferenceRoomID: %@", conferenceRoomID);
+#endif
     
     return YES;
 }
@@ -677,7 +690,6 @@
 }
 
 - (void)checkAndHandleCallNotificationFromMessage:(TAPMessageModel *)message activeUser:(TAPUserModel *)activeUser {
-    NSLog(@">>>> checkAndHandleCallNotificationFromMessage: %ld %@ %@", message.type, message.user.fullname, message.body);
     if (message.type != CALL_MESSAGE_TYPE ||
         [self.handledCallNotificationMessageLocalIDs containsObject:message.localID]
     ) {
@@ -687,7 +699,10 @@
         return;
     }
     
-    NSLog(@">>>> checkAndHandleCallNotificationFromMessage: %@ %@", message.body, message.data);
+#ifdef DEBUG
+    NSLog(@">>>> checkAndHandleCallNotificationFromMessage: %ld %@ %@", message.type, message.user.fullname, message.body);
+#endif
+    
     [self.handledCallNotificationMessageLocalIDs addObject:message.localID];
 
     if (![message.action isEqualToString:CALL_ENDED] &&
@@ -737,7 +752,9 @@
             }
             else {
                 // Received call initiated notification, show incoming call
+#ifdef DEBUG
                 NSLog(@">>>> checkAndHandleCallNotificationFromMessage: CALL_INITIATED - Show incoming call");
+#endif
                 [self setActiveCallData:message];
                 // Trigger delegate callback
                 if ([MeetTalk sharedInstance].delegate &&
@@ -769,7 +786,9 @@
             ([message.action isEqualToString:RECIPIENT_REJECTED_CALL] && [message.user.userID isEqualToString:activeUser.userID])
         ) {
             // Caller cancelled call or recipient rejected call elsewhere, dismiss incoming call
+#ifdef DEBUG
             NSLog(@">>>> checkAndHandleCallNotificationFromMessage: %@", message.action);
+#endif
             [self.activeMeetTalkCallViewController dismiss];
             [self closeIncomingCall];
             [self setActiveCallAsEnded];
@@ -792,7 +811,9 @@
         }
         else if ([message.action isEqualToString:CALL_ENDED]) {
             // A party ended the call, leave active call room
+#ifdef DEBUG
             NSLog(@">>>> checkAndHandleCallNotificationFromMessage: CALL_ENDED");
+#endif
             [self.activeMeetTalkCallViewController dismiss];
             [self setActiveCallAsEnded];
             
@@ -804,7 +825,9 @@
             }
         }
         else if ([message.action isEqualToString:RECIPIENT_ANSWERED_CALL]) {
+#ifdef DEBUG
             NSLog(@">>>> checkAndHandleCallNotificationFromMessage: RECIPIENT_ANSWERED_CALL %@", message.user.fullname);
+#endif
             if ([message.user.userID isEqualToString:activeUser.userID]) {
                 // Recipient answered call elsewhere, dismiss incoming call
                 [self closeIncomingCall];
@@ -820,7 +843,9 @@
         }
         else if ([message.action isEqualToString:PARTICIPANT_JOINED_CONFERENCE]) {
             // A participant successfully joined the call, notify call view controller
+#ifdef DEBUG
             NSLog(@">>>> checkAndHandleCallNotificationFromMessage: PARTICIPANT_JOINED_CONFERENCE %@", message.user.fullname);
+#endif
             MeetTalkConferenceInfo *updatedConferenceInfo = [MeetTalkConferenceInfo fromMessageModel:message];
             if (self.activeConferenceInfo != nil && updatedConferenceInfo != nil) {
                 [self.activeConferenceInfo updateValue:updatedConferenceInfo];
@@ -838,7 +863,9 @@
         }
         else if ([message.action isEqualToString:PARTICIPANT_LEFT_CONFERENCE]) {
             // A participant left the call
+#ifdef DEBUG
             NSLog(@">>>> checkAndHandleCallNotificationFromMessage: PARTICIPANT_LEFT_CONFERENCE %@", message.user.fullname);
+#endif
             MeetTalkConferenceInfo *updatedConferenceInfo = [MeetTalkConferenceInfo fromMessageModel:message];
             if (self.activeConferenceInfo != nil && updatedConferenceInfo != nil) {
                 [self.activeConferenceInfo updateValue:updatedConferenceInfo];
@@ -860,7 +887,9 @@
                  [message.action isEqualToString:RECIPIENT_MISSED_CALL])
         ) {
             // Recipient did not join call, leave call room
+#ifdef DEBUG
             NSLog(@">>>> checkAndHandleCallNotificationFromMessage: %@", message.action);
+#endif
             [self.activeMeetTalkCallViewController dismiss];
             [self setActiveCallAsEnded];
             
@@ -888,7 +917,9 @@
             }
         }
         else if ([message.action isEqualToString:CONFERENCE_INFO] && ![message.user.userID isEqualToString:activeUser.userID]) {
+#ifdef DEBUG
             NSLog(@">>>> checkAndHandleCallNotificationFromMessage: CONFERENCE_INFO - update view controller");
+#endif
             // Received updated conference info
             MeetTalkConferenceInfo *updatedConferenceInfo = [MeetTalkConferenceInfo fromMessageModel:message];
             if (self.activeConferenceInfo != nil && updatedConferenceInfo != nil) {
@@ -1105,7 +1136,9 @@
 }
 
 - (void)sendPendingCallNotificationMessages {
+#ifdef DEBUG
     NSLog(@">>>> MeetTalkCallManager sendPendingCallNotificationMessages size: %ld", self.pendingCallNotificationMessages.count);
+#endif
     NSMutableArray<TAPMessageModel *> *pendingMessagesCopy = [[NSMutableArray alloc] initWithArray:self.pendingCallNotificationMessages copyItems:YES];
     for (TAPMessageModel *message in pendingMessagesCopy) {
         TAPMessageModel *messageCopy = [message copy];
@@ -1116,7 +1149,9 @@
 
 - (void)sendCallNotificationMessage:(TAPMessageModel *)message {
     if ([[TapTalk sharedInstance] isConnected]) {
+#ifdef DEBUG
         NSLog(@">>>> MeetTalkCallManager sendCallNotificationMessage: %@", message.action);
+#endif
         [[TAPCoreMessageManager sharedManager] sendCustomMessageWithMessageModel:message
         start:^(TAPMessageModel * _Nonnull message) {
                 
@@ -1129,37 +1164,34 @@
         }];
     }
     else {
+#ifdef DEBUG
         NSLog(@">>>> MeetTalkCallManager add to pending array: %@", message.action);
+#endif
         [self.pendingCallNotificationMessages addObject:message];
     }
 }
 
 - (void)handleSendNotificationOnLeavingConference {
     if (self.activeCallMessage == nil || self.activeMeetTalkCallViewController == nil) {
-        NSLog(@">>>> MeetTalkCallManager handleSendNotificationOnLeavingConference: return");
         return;
     }
     
     if (self.activeCallMessage.room.type == RoomTypePersonal) {
         if (self.activeConferenceInfo != nil && self.activeConferenceInfo.participants.count > 1) {
-            NSLog(@">>>> MeetTalkCallManager handleSendNotificationOnLeavingConference: sendCallEndedNotification");
             // Send call ended notification to notify the other party
             [self sendCallEndedNotification:self.activeCallMessage.room];
         }
         else if ([self.activeConferenceInfo.hostUserID isEqualToString:[[TapTalk sharedInstance] getTapTalkActiveUser].userID]) {
-            NSLog(@">>>> MeetTalkCallManager handleSendNotificationOnLeavingConference: sendCallCanceledNotification");
             // Send call cancelled notification to notify recipient
             [self sendCallCanceledNotification:self.activeCallMessage.room];
         }
         else if (!self.activeMeetTalkCallViewController.isCallStarted) {
-            NSLog(@">>>> MeetTalkCallManager handleSendNotificationOnLeavingConference: sendRejectedCallNotification");
             // Left conference before connecteed, send call rejected notification to notify recipient
             [self sendRejectedCallNotification:self.activeCallMessage.room];
         }
     }
     else {
         // Send left call notification to conference
-        NSLog(@">>>> MeetTalkCallManager handleSendNotificationOnLeavingConference: sendLeftCallNotification");
         [self sendLeftCallNotification:self.activeCallMessage.room];
     }
 }
@@ -1211,7 +1243,6 @@
 }
 
 - (void)handleAppExiting:(UIApplication *_Nonnull)application {
-    NSLog(@">>>> MeetTalkCallManager handleAppExiting");
     _application = application;
     [self dismissIncomingCall];
     if (self.pendingCallNotificationMessages.count > 0 ||
@@ -1220,20 +1251,16 @@
          self.activeConferenceInfo.callEndedTime.longValue == 0L)
     ) {
         if (self.callState == MeetTalkCallStateRinging) {
-            NSLog(@">>>> MeetTalkCallManager handleAppExiting: sendRejectedCallNotification");
             [self sendRejectedCallNotification:self.activeCallMessage.room];
         }
         else {
-            NSLog(@">>>> MeetTalkCallManager handleAppExiting: handleSendNotificationOnLeavingConference");
             [self handleSendNotificationOnLeavingConference];
         }
     }
     [[TapTalk sharedInstance] connectWithSuccess:^{
-        NSLog(@">>>> MeetTalkCallManager handleAppExiting: connect Success");
         [self handleDisconnectAndExit];
     }
     failure:^(NSError * _Nonnull error) {
-        NSLog(@">>>> MeetTalkCallManager handleAppExiting: connect ERROR");
         [self handleDisconnectAndExit];
     }];
 }
@@ -1250,10 +1277,8 @@
 }
 
 - (void)exitCallTimerFired {
-    NSLog(@">>>> MeetTalkCallManager handleAppExiting: exitCallTimerFired");
     [[TapTalk sharedInstance] disconnectWithCompletionHandler:^{
         if (self.application != nil) {
-            NSLog(@">>>> MeetTalkCallManager handleAppExiting: TapTalk applicationWillTerminate");
             [[TapTalk sharedInstance] applicationWillTerminate:self.application];
             if (self.activeMeetTalkCallViewController != nil) {
                 [self.activeMeetTalkCallViewController dismiss];

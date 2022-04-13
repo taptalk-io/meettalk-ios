@@ -137,7 +137,6 @@
 }
 
 - (void)applicationWillTerminate:(UIApplication *_Nonnull)application {
-    NSLog(@">>>> MeetTalk applicationWillTerminate:");
     [[MeetTalkCallManager sharedManager] handleAppExiting:application];
 }
 
@@ -193,9 +192,7 @@
 
 - (void)pushRegistry:(PKPushRegistry *)registry didUpdatePushCredentials:(PKPushCredentials *)pushCredentials forType:(PKPushType)type {
     
-    NSLog(@">>>> MeetTalk pushRegistry didUpdatePushCredentials: %@", pushCredentials.token);
     if ([pushCredentials.token length] == 0) {
-        NSLog(@">>>> voip token NULL");
         return;
     }
 }
@@ -205,8 +202,7 @@
     NSString *uuidString = payload.dictionaryPayload[@"UUID"];
     NSUUID *uuid = [[NSUUID alloc] initWithUUIDString:uuidString];
     NSString *phoneNumber = payload.dictionaryPayload[@"PhoneNumber"];
-    NSLog(@">>>> TapTalk pushRegistry didReceiveIncomingPushWithPayload");
-    
+
 //    TapCallViewController *callViewController = [[TapCallViewController alloc] init];
 //    callViewController.phoneNumber = phoneNumber;
 //    callViewController.isIncoming = YES;

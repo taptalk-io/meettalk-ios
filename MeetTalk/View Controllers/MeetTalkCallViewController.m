@@ -92,24 +92,21 @@
     }
 }
 
-//- (void)dealloc {
-//    NSLog(@">>>>> MeetTalkCallViewController dealloc");
-//    [[MeetTalkCallManager sharedManager] handleSendNotificationOnLeavingConference];
-//    [[MeetTalkCallManager sharedManager] setActiveCallAsEnded];
-//    [MeetTalkCallManager sharedManager].activeMeetTalkCallViewController = nil;
-//    [MeetTalkCallManager sharedManager].callState = MeetTalkCallStateIdle;
-//}
-
 #pragma mark - Delegates
 
 #pragma mark - JitsiMeetViewDelegate
 
 - (void)conferenceWillJoin:(NSDictionary *)data {
+#ifdef DEBUG
     NSLog(@">>>>> MeetTalkCallViewController About to join conference %@", self.activeCallRoom.roomID);
+#endif
 }
 
 - (void)conferenceJoined:(NSDictionary *)data {
+#ifdef DEBUG
     NSLog(@">>>>> MeetTalkCallViewController Conference %@ joined", self.activeCallRoom.roomID);
+#endif
+    
     [self enableButtons];
     //[self retrieveParticipantInfo];
     if (self.activeCallRoom.type == RoomTypePersonal) {
@@ -133,7 +130,9 @@
 }
 
 - (void)conferenceTerminated:(NSDictionary *)data {
+#ifdef DEBUG
     NSLog(@">>>>> MeetTalkCallViewController Conference %@ terminated", self.activeCallRoom.roomID);
+#endif
     // Trigger delegate callback
     if ([MeetTalk sharedInstance].delegate &&
         [[MeetTalk sharedInstance].delegate respondsToSelector:@selector(meetTalkConferenceTerminated:)]
@@ -147,7 +146,9 @@
 }
 
 - (void)participantLeft:(NSDictionary *)data {
+#ifdef DEBUG
     NSLog(@">>>>> MeetTalkCallViewController participantLeft");
+#endif
     if (self.activeCallRoom.type == RoomTypePersonal) {
         // The other user left, terminate the call
         [self dismiss];
@@ -157,7 +158,6 @@
 #pragma mark - TAPConnectionManagerDelegate
 
 - (void)connectionManagerDidConnected {
-    NSLog(@">>>>> MeetTalkCallViewController connectionManagerDidConnected");
     [self fetchNewerMessages];
     
     // TODO: CHECK IF JOINED CALL NOTIFICATION IS ALREADY SENT
@@ -171,7 +171,6 @@
 }
 
 - (void)connectionManagerDidDisconnectedWithCode:(NSInteger)code reason:(NSString *)reason cleanClose:(BOOL)clean {
-    NSLog(@">>>>> MeetTalkCallViewController connectionManagerDidDisconnected");
     [self showVoiceCallLayoutWithAnimation:YES];
     [self stopCallDurationTimer];
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -187,7 +186,6 @@
 }
 
 - (void)connectionManagerIsConnecting {
-    NSLog(@">>>>> MeetTalkCallViewController connectionManagerIsConnecting");
     [self showVoiceCallLayoutWithAnimation:YES];
     [self stopCallDurationTimer];
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -330,19 +328,15 @@
 
 - (void)updateLayoutWithAnimation:(BOOL)animated {
     if ([MeetTalkCallManager sharedManager].activeConferenceInfo == nil) {
-        NSLog(@">>>>> MeetTalkCallViewController updateLayoutWithAnimation: conference info NULL");
         return;
     }
     dispatch_async(dispatch_get_main_queue(), ^{
         for (MeetTalkParticipantInfo *participant in [MeetTalkCallManager sharedManager].activeConferenceInfo.participants) {
-            NSLog(@">>>>> MeetTalkCallViewController updateLayoutWithAnimation loop: %@ %ld", participant.displayName, [NSNumber numberWithBool:participant.isVideoMuted].longValue);
             if (!participant.isVideoMuted) {
-                NSLog(@">>>>> MeetTalkCallViewController updateLayoutWithAnimation: showVideoCallLayoutWithAnimation");
                 [self showVideoCallLayoutWithAnimation:animated];
                 return;
             }
         }
-        NSLog(@">>>>> MeetTalkCallViewController updateLayoutWithAnimation: showVoiceCallLayoutWithAnimation");
         [self showVoiceCallLayoutWithAnimation:animated];
     });
 }
@@ -548,9 +542,10 @@
 }
 
 - (void)conferenceInfoUpdated:(MeetTalkConferenceInfo *)updatedConferenceInfo {
-//    NSLog(@">>>>> MeetTalkCallViewController updatedConferenceInfo: %@", [updatedConferenceInfo toJSONString]);
+#ifdef DEBUG
     NSLog(@">>>>> MeetTalkCallViewController updatedConferenceInfo isCallStarted: %ld", [NSNumber numberWithBool:self.isCallStarted].longValue);
     NSLog(@">>>>> MeetTalkCallViewController updatedConferenceInfo participants: %ld", updatedConferenceInfo.participants.count);
+#endif
     
     if ([self checkIfCallIsEnded]) {
         return;
@@ -574,7 +569,6 @@
     }
     
     if (self.isCallStarted) {
-        NSLog(@">>>>> MeetTalkCallViewController conferenceInfoUpdated: updateLayoutWithAnimation");
         [self updateLayoutWithAnimation:YES];
     }
 }
