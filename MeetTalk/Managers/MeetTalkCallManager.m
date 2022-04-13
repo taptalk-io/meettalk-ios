@@ -272,7 +272,7 @@
     [action fulfill];
     
     // TODO: TEST USER REJECT CALL
-    if (self.activeCallMessage != nil && [self.answeredCallID isEqualToString:self.activeCallMessage.localID]) {
+    if (self.activeCallMessage != nil && ![self.answeredCallID isEqualToString:self.activeCallMessage.localID]) {
         [self rejectIncomingCall];
     }
 }
@@ -439,10 +439,10 @@
     NSLog(@">>>> showIncomingCallWithMessage: %@ %@", uuid, phoneNumber);
     
 
-#ifdef DEBUG
-    // TODO: TEST TO BYPASS INCOMING CALL
-    [self answerIncomingCall];
-#endif
+//#ifdef DEBUG
+//    // TODO: TEST TO BYPASS INCOMING CALL
+//    [self answerIncomingCall];
+//#endif
 }
 
 - (void)dismissIncomingCall {
@@ -451,7 +451,7 @@
     }
     CXCallController *callController = [[CXCallController alloc] init];
     CXEndCallAction *endCallAction = [[CXEndCallAction alloc] initWithCallUUID:self.currentCallUUID];
-    NSLog(@">>>> MeetTalkCallManager CXProviderDelegate performAnswerCallAction: %@", self.currentCallUUID);
+    NSLog(@">>>> MeetTalkCallManager CXProviderDelegate dismissIncomingCall: %@", self.currentCallUUID);
     [callController requestTransactionWithAction:endCallAction completion:^(NSError * _Nullable error) {
         if (!error) {
             NSLog(@">>>> MeetTalkCallManager dismissIncomingCall: end call success");
