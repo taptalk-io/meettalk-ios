@@ -89,6 +89,8 @@
             [self updateParticipant:updatedParticipant];
         }
     }
+    self.startWithAudioMuted = updatedConferenceInfo.startWithAudioMuted;
+    self.startWithVideoMuted = updatedConferenceInfo.startWithVideoMuted;
 }
 
 - (void)updateParticipant:(MeetTalkParticipantInfo *)updatedParticipant {
@@ -127,6 +129,8 @@
     conferenceInfoCopy.callDuration = self.callDuration;
     conferenceInfoCopy.lastUpdated = self.lastUpdated;
     conferenceInfoCopy.participants = self.participants;
+    conferenceInfoCopy.startWithAudioMuted = self.startWithAudioMuted;
+    conferenceInfoCopy.startWithVideoMuted = self.startWithVideoMuted;
     return conferenceInfoCopy;
 }
 

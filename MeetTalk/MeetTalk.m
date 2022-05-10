@@ -231,7 +231,9 @@
         [self.delegate meetTalkChatBubbleCallButtonDidTapped:tappedMessage];
     }
     else {
-        [[MeetTalkCallManager sharedManager] initiateNewConferenceCallWithRoom:tappedMessage.room];
+        [[MeetTalkCallManager sharedManager] initiateNewConferenceCallWithRoom:tappedMessage.room
+                                                           startWithAudioMuted:[MeetTalkCallManager sharedManager].defaultAudioMuted
+                                                           startWithVideoMuted:[MeetTalkCallManager sharedManager].defaultVideoMuted];
     }
 }
 
@@ -256,17 +258,46 @@
 #pragma mark - Conference Call
 
 - (void)initiateNewConferenceCallWithRoom:(TAPRoomModel *)room {
-    [[MeetTalkCallManager sharedManager] initiateNewConferenceCallWithRoom:room];
+    [[MeetTalkCallManager sharedManager] initiateNewConferenceCallWithRoom:room
+                                                       startWithAudioMuted:[MeetTalkCallManager sharedManager].defaultAudioMuted
+                                                       startWithVideoMuted:[MeetTalkCallManager sharedManager].defaultVideoMuted];
+}
+
+- (void)initiateNewConferenceCallWithRoom:(TAPRoomModel *)room
+                      startWithAudioMuted:(BOOL)startWithAudioMuted
+                      startWithVideoMuted:(BOOL)startWithVideoMuted {
+    
+    [[MeetTalkCallManager sharedManager] initiateNewConferenceCallWithRoom:room
+                                                       startWithAudioMuted:startWithAudioMuted
+                                                       startWithVideoMuted:startWithVideoMuted];
 }
 
 - (void)initiateNewConferenceCallWithRoom:(TAPRoomModel *)room
                      recipientDisplayName:(NSString *)recipientDisplayName {
     
-    [[MeetTalkCallManager sharedManager] initiateNewConferenceCallWithRoom:room recipientDisplayName:recipientDisplayName];
+    [[MeetTalkCallManager sharedManager] initiateNewConferenceCallWithRoom:room
+                                                       startWithAudioMuted:[MeetTalkCallManager sharedManager].defaultAudioMuted
+                                                       startWithVideoMuted:[MeetTalkCallManager sharedManager].defaultVideoMuted
+                                                      recipientDisplayName:recipientDisplayName];
+}
+
+- (void)initiateNewConferenceCallWithRoom:(TAPRoomModel *)room
+                     recipientDisplayName:(NSString *)recipientDisplayName
+                      startWithAudioMuted:(BOOL)startWithAudioMuted
+                      startWithVideoMuted:(BOOL)startWithVideoMuted {
+    
+    [[MeetTalkCallManager sharedManager] initiateNewConferenceCallWithRoom:room
+                                                       startWithAudioMuted:startWithAudioMuted
+                                                       startWithVideoMuted:startWithVideoMuted
+                                                      recipientDisplayName:recipientDisplayName];
 }
 
 - (BOOL)joinPendingIncomingConferenceCall {
     return [[MeetTalkCallManager sharedManager] joinPendingIncomingConferenceCall];
+}
+
+- (void)rejectPendingIncomingConferenceCall {
+    [[MeetTalkCallManager sharedManager] rejectPendingIncomingConferenceCall];
 }
 
 - (BOOL)launchMeetTalkCallViewController {

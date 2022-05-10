@@ -108,6 +108,7 @@
 #endif
     
     [self enableButtons];
+    [self updateLayoutWithAnimation:YES];
     //[self retrieveParticipantInfo];
     if (self.activeCallRoom.type == RoomTypePersonal) {
         // Joined an existing call, send participant joined notification
@@ -228,11 +229,18 @@
         }
     }
     if (self.activeParticipantInfo == nil) {
-        _activeParticipantInfo = [[MeetTalkCallManager sharedManager] generateParticipantInfoWithRole:PARTICIPANT];
+        _activeParticipantInfo = [[MeetTalkCallManager sharedManager] generateParticipantInfoWithRole:PARTICIPANT
+                                                                                  startWithAudioMuted:[MeetTalkCallManager sharedManager].defaultAudioMuted
+                                                                                  startWithVideoMuted:[MeetTalkCallManager sharedManager].defaultVideoMuted];
     }
-    
-    _isAudioMuted = [MeetTalkCallManager sharedManager].defaultAudioMuted;
-    _isVideoMuted = [MeetTalkCallManager sharedManager].defaultVideoMuted;
+    if ([MeetTalkCallManager sharedManager].activeConferenceInfo != nil) {
+        _isAudioMuted = [MeetTalkCallManager sharedManager].activeConferenceInfo.startWithAudioMuted;
+        _isVideoMuted = [MeetTalkCallManager sharedManager].activeConferenceInfo.startWithVideoMuted;
+    }
+    else {
+        _isAudioMuted = [MeetTalkCallManager sharedManager].defaultAudioMuted;
+        _isVideoMuted = [MeetTalkCallManager sharedManager].defaultVideoMuted;
+    }
 }
 
 - (void)initView {

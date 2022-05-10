@@ -130,8 +130,16 @@ Called when user tapped the notification
 #pragma mark - Conference Call
 - (void)initiateNewConferenceCallWithRoom:(TAPRoomModel *)room;
 - (void)initiateNewConferenceCallWithRoom:(TAPRoomModel *)room
+                      startWithAudioMuted:(BOOL)startWithAudioMuted
+                      startWithVideoMuted:(BOOL)startWithVideoMuted;
+- (void)initiateNewConferenceCallWithRoom:(TAPRoomModel *)room
                      recipientDisplayName:(NSString *)recipientDisplayName;
+- (void)initiateNewConferenceCallWithRoom:(TAPRoomModel *)room
+                     recipientDisplayName:(NSString *)recipientDisplayName
+                      startWithAudioMuted:(BOOL)startWithAudioMuted
+                      startWithVideoMuted:(BOOL)startWithVideoMuted;
 - (BOOL)joinPendingIncomingConferenceCall;
+- (BOOL)rejectPendingIncomingConferenceCall;
 - (BOOL)launchMeetTalkCallViewController;
 - (BOOL)launchMeetTalkCallViewControllerWithRoom:(TAPRoomModel *)room
                                   activeUserName:(NSString *)activeUserName

@@ -56,15 +56,21 @@ typedef NS_ENUM(NSInteger, MeetTalkCallState) {
 - (void)clearPendingIncomingCall;
 - (void)rejectPendingIncomingConferenceCall;
 - (BOOL)joinPendingIncomingConferenceCall;
-- (void)initiateNewConferenceCallWithRoom:(TAPRoomModel *)room;
 - (void)initiateNewConferenceCallWithRoom:(TAPRoomModel *)room
+                      startWithAudioMuted:(BOOL)startWithAudioMuted
+                      startWithVideoMuted:(BOOL)startWithVideoMuted;
+- (void)initiateNewConferenceCallWithRoom:(TAPRoomModel *)room
+                      startWithAudioMuted:(BOOL)startWithAudioMuted
+                      startWithVideoMuted:(BOOL)startWithVideoMuted
                      recipientDisplayName:(NSString *)recipientDisplayName;
 - (BOOL)launchMeetTalkCallViewController;
 - (BOOL)launchMeetTalkCallViewControllerWithRoom:(TAPRoomModel *)room
                                   activeUserName:(NSString *)activeUserName
                              activeUserAvatarUrl:(NSString *)activeUserAvatarUrl;
 - (void)checkAndHandleCallNotificationFromMessage:(TAPMessageModel *)message activeUser:(TAPUserModel *)activeUser;
-- (MeetTalkParticipantInfo *)generateParticipantInfoWithRole:(NSString *)role;
+- (MeetTalkParticipantInfo *)generateParticipantInfoWithRole:(NSString *)role
+                                         startWithAudioMuted:(BOOL)startWithAudioMuted
+                                         startWithVideoMuted:(BOOL)startWithVideoMuted;
 - (TAPMessageModel *)sendCallInitiatedNotification:(TAPRoomModel *)room;
 - (TAPMessageModel *)sendCallCanceledNotification:(TAPRoomModel *)room;
 - (TAPMessageModel *)sendCallEndedNotification:(TAPRoomModel *)room;
