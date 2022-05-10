@@ -68,8 +68,14 @@
         = [JitsiMeetConferenceOptions fromBuilder:^(JitsiMeetConferenceOptionsBuilder *builder) {
 //            builder.serverURL = [NSURL URLWithString:MEET_URL];
             builder.serverURL = [NSURL URLWithString:@"https://meet.jit.si"];
-            builder.audioMuted = self.defaultAudioMuted;
-            builder.videoMuted = self.defaultVideoMuted;
+            if (self.activeConferenceInfo != nil) {
+                builder.audioMuted = self.activeConferenceInfo.startWithAudioMuted;
+                builder.videoMuted = self.activeConferenceInfo.startWithVideoMuted;
+            }
+            else {
+                builder.audioMuted = self.defaultAudioMuted;
+                builder.videoMuted = self.defaultVideoMuted;
+            }
             [builder setFeatureFlag:ADD_PEOPLE_ENABLED withBoolean:NO];
             [builder setFeatureFlag:AUDIO_MUTE_BUTTON_ENABLED withBoolean:NO];
             [builder setFeatureFlag:CALL_INTEGRATION_ENABLED withBoolean:NO];
@@ -425,6 +431,23 @@
         phoneNumber = displayPhoneNumber;
     }
     
+    MeetTalkConferenceInfo *conferenceInfo = [MeetTalkConferenceInfo fromMessageModel:message];
+    NSString *incomingCallString;
+    if (conferenceInfo != nil && conferenceInfo.startWithVideoMuted) {
+        incomingCallString = NSLocalizedString(@"Incoming Video Call", @"");
+    }
+    else {
+        incomingCallString = NSLocalizedString(@"Incoming Voice Call", @"");
+    }
+    
+    NSString *contentText;
+    if (phoneNumber.length > 0) {
+        contentText = [NSString stringWithFormat:@"%@ - %@", incomingCallString, phoneNumber];
+    }
+    else {
+        contentText = incomingCallString;
+    }
+    
     // Show incoming call
     self.callState = MeetTalkCallStateRinging;
     
@@ -441,7 +464,7 @@
     }
     
     NSUUID *uuid = [NSUUID new];
-    [self reportIncomingCallForUUID:uuid phoneNumber:phoneNumber];
+    [self reportIncomingCallForUUID:uuid phoneNumber:contentText];
     [self startMissedCallTimer];
 #ifdef DEBUG
     NSLog(@">>>> showIncomingCallWithMessage: %@ %@", uuid, phoneNumber);
@@ -605,20 +628,27 @@
     [self clearPendingIncomingCall];
 }
 
-- (void)initiateNewConferenceCallWithRoom:(TAPRoomModel *)room {
+- (void)initiateNewConferenceCallWithRoom:(TAPRoomModel *)room
+                      startWithAudioMuted:(BOOL)startWithAudioMuted
+                      startWithVideoMuted:(BOOL)startWithVideoMuted {
+    
     if (room.type != RoomTypePersonal) {
         // TODO: Temporarily disabled for non-personal room
         return;
     }
-    [self sendCallInitiatedNotification:room];
+    [self sendCallInitiatedNotification:room startWithAudioMuted:startWithAudioMuted startWithVideoMuted:startWithVideoMuted];
     [self launchMeetTalkCallViewController];
 }
 
 - (void)initiateNewConferenceCallWithRoom:(TAPRoomModel *)room
+                      startWithAudioMuted:(BOOL)startWithAudioMuted
+                      startWithVideoMuted:(BOOL)startWithVideoMuted
                      recipientDisplayName:(NSString *)recipientDisplayName {
     
     [self.roomAliasDictionary setObject:recipientDisplayName forKey:room.roomID];
-    [self initiateNewConferenceCallWithRoom:room];
+    [self initiateNewConferenceCallWithRoom:room
+                        startWithAudioMuted:startWithAudioMuted
+                        startWithVideoMuted:startWithVideoMuted];
 }
 
 - (BOOL)launchMeetTalkCallViewController {
@@ -664,6 +694,14 @@
     JitsiMeetConferenceOptions *options = [JitsiMeetConferenceOptions fromBuilder:^(JitsiMeetConferenceOptionsBuilder *builder) {
         builder.room = conferenceRoomID;
         builder.userInfo = userInfo;
+        if (self.activeConferenceInfo != nil) {
+            [builder setAudioMuted:self.activeConferenceInfo.startWithAudioMuted];
+            [builder setVideoMuted:self.activeConferenceInfo.startWithVideoMuted];
+        }
+        else {
+            [builder setAudioMuted:self.defaultAudioMuted];
+            [builder setVideoMuted:self.defaultVideoMuted];
+        }
     }];
     
     MeetTalkCallViewController *callViewController = [[MeetTalkCallViewController alloc] initWithNibName:@"MeetTalkCallViewController" bundle:[MeetTalk bundle]];
@@ -962,7 +1000,10 @@
     return notificationMessage;
 }
 
-- (MeetTalkParticipantInfo *)generateParticipantInfoWithRole:(NSString *)role {
+- (MeetTalkParticipantInfo *)generateParticipantInfoWithRole:(NSString *)role
+                                         startWithAudioMuted:(BOOL)startWithAudioMuted
+                                         startWithVideoMuted:(BOOL)startWithVideoMuted {
+    
     TAPUserModel *activeUser = [[TapTalk sharedInstance] getTapTalkActiveUser];
     MeetTalkParticipantInfo *participantInfo = [MeetTalkParticipantInfo new];
     participantInfo.userID = activeUser.userID;
@@ -972,8 +1013,8 @@
     participantInfo.role = role;
     participantInfo.leaveTime = [NSNumber numberWithLong:0L];
     participantInfo.lastUpdated = [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970] * 1000.0f];
-    participantInfo.isAudioMuted = self.defaultAudioMuted;
-    participantInfo.isVideoMuted = self.defaultVideoMuted;
+    participantInfo.isAudioMuted = startWithAudioMuted;
+    participantInfo.isVideoMuted = startWithVideoMuted;
     return participantInfo;
 }
 
@@ -991,10 +1032,15 @@
     return  message;
 }
 
-- (TAPMessageModel *)sendCallInitiatedNotification:(TAPRoomModel *)room {
+- (TAPMessageModel *)sendCallInitiatedNotification:(TAPRoomModel *)room
+                               startWithAudioMuted:(BOOL)startWithAudioMuted
+                               startWithVideoMuted:(BOOL)startWithVideoMuted {
+    
     TAPMessageModel *message = [self generateCallNotificationMessageWithRoom:room body:@"{{sender}} started call." action:CALL_INITIATED];
     NSMutableArray<MeetTalkParticipantInfo *> *participants = [NSMutableArray array];
-    MeetTalkParticipantInfo *host = [self generateParticipantInfoWithRole:HOST];
+    MeetTalkParticipantInfo *host = [self generateParticipantInfoWithRole:HOST
+                                                      startWithAudioMuted:startWithAudioMuted
+                                                      startWithVideoMuted:startWithVideoMuted];
     [participants addObject:host];
     MeetTalkConferenceInfo *conferenceInfo = [MeetTalkConferenceInfo new];
     conferenceInfo.callID = message.localID;
@@ -1006,6 +1052,8 @@
     conferenceInfo.callDuration = [NSNumber numberWithLong:0L];
     conferenceInfo.lastUpdated = message.created;
     conferenceInfo.participants = participants;
+    conferenceInfo.startWithAudioMuted = startWithAudioMuted;
+    conferenceInfo.startWithVideoMuted = startWithVideoMuted;
     [conferenceInfo attachToMessage:message];
     message.filterID = conferenceInfo.callID;
     
@@ -1051,7 +1099,15 @@
 
 - (TAPMessageModel *)sendJoinedCallNotification:(TAPRoomModel *)room {
     TAPMessageModel *message = [self generateCallNotificationMessageWithRoom:room body:@"{{sender}} joined call." action:PARTICIPANT_JOINED_CONFERENCE];
-    MeetTalkParticipantInfo *participant = [self generateParticipantInfoWithRole:PARTICIPANT];
+    BOOL startWithAudioMuted = self.defaultAudioMuted;
+    BOOL startWithVideoMuted = self.defaultVideoMuted;
+    if (self.activeConferenceInfo != nil) {
+        startWithAudioMuted = self.activeConferenceInfo.startWithAudioMuted;
+        startWithVideoMuted = self.activeConferenceInfo.startWithVideoMuted;
+    }
+    MeetTalkParticipantInfo *participant = [self generateParticipantInfoWithRole:PARTICIPANT
+                                                             startWithAudioMuted:startWithAudioMuted
+                                                             startWithVideoMuted:startWithVideoMuted];
     if (self.activeConferenceInfo != nil) {
         [self.activeConferenceInfo updateParticipant:participant];
         self.activeConferenceInfo.lastUpdated = message.created;

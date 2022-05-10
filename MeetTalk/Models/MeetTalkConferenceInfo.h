@@ -22,6 +22,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSNumber *callDuration;
 @property (nonatomic, strong) NSNumber *lastUpdated;
 @property (nonatomic, strong) NSMutableArray<MeetTalkParticipantInfo *> *participants;
+@property (nonatomic) BOOL startWithAudioMuted;
+@property (nonatomic) BOOL startWithVideoMuted;
 
 + (MeetTalkConferenceInfo * _Nullable)fromMessageModel:(TAPMessageModel *)message;
 - (TAPMessageModel *)attachToMessage:(TAPMessageModel *)message;
