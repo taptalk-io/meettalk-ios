@@ -14,12 +14,12 @@ PODS:
   - AFNetworking/Serialization (4.0.1)
   - AFNetworking/UIKit (4.0.1):
     - AFNetworking/NSURLSession
-  - GoogleMaps (6.1.1):
-    - GoogleMaps/Maps (= 6.1.1)
-  - GoogleMaps/Base (6.1.1)
-  - GoogleMaps/Maps (6.1.1):
+  - GoogleMaps (6.2.1):
+    - GoogleMaps/Maps (= 6.2.1)
+  - GoogleMaps/Base (6.2.1)
+  - GoogleMaps/Maps (6.2.1):
     - GoogleMaps/Base
-  - GooglePlaces (6.1.1)
+  - GooglePlaces (6.2.1)
   - JitsiMeetSDK (5.0.2)
   - JSONModel (1.8.0)
   - PodAsset (1.3.0)
@@ -30,7 +30,7 @@ PODS:
     - SDWebImage/Core (= 5.12.5)
   - SDWebImage/Core (5.12.5)
   - SocketRocket (0.6.0)
-  - TapTalk (1.6.1):
+  - TapTalk (1.6.2):
     - AFNetworking (~> 4.0.0)
     - GoogleMaps
     - GooglePlaces
@@ -66,15 +66,15 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   AFNetworking: 7864c38297c79aaca1500c33288e429c3451fdce
-  GoogleMaps: 94e6e0851beece6678af9f508f4918b7a7c61722
-  GooglePlaces: 9c1f3baa75191b94dfc12b80a801292e03977f73
+  GoogleMaps: 20d7b12be49a14287f797e88e0e31bc4156aaeb4
+  GooglePlaces: 94974aa119573d5acc2a35a699948dac838abd73
   JitsiMeetSDK: edcac8e2b92ee0c7f3e75bd0aefefbe9faccfc93
   JSONModel: 02ab723958366a3fd27da57ea2af2113658762e9
   PodAsset: 161b57cdf4d7307b0fb652cccab32fa8d5dc580b
   Realm: 100df88a0faf5328f48477427e4b3e1a1598bae3
   SDWebImage: 0905f1b7760fc8ac4198cae0036600d67478751e
   SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
-  TapTalk: 4561bdafd9f086cf34c44b7fcaf91ebfc7e70c5b
+  TapTalk: 786093fbb49eff36c5cca15a0ac68744fdac58da
   ZSWTappableLabel: cff84c0a55e30f2141f7dac24e5903302a7e35ec
 
 PODFILE CHECKSUM: d43f94260c87499244985a6517a8dd8b7e4a8f0a
