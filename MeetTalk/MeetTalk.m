@@ -9,7 +9,9 @@
 #import "MeetTalkCallManager.h"
 #import <TapTalk/TapTalk.h>
 #import <TapTalk/TAPChatManager.h>
+#import <TapTalk/TAPDataManager.h>
 #import <TapTalk/TAPCoreMessageManager.h>
+#import <TapTalk/TAPUtil.h>
 #import <Intents/Intents.h>
 #import <PushKit/PushKit.h>
 
@@ -126,6 +128,7 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *_Nonnull)application {
     [[TapTalk sharedInstance] applicationDidEnterBackground:application];
+    [[MeetTalkCallManager sharedManager] checkAndShowOngoingCallLocalNotification];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *_Nonnull)application {
@@ -134,6 +137,14 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *_Nonnull)application {
     [[TapTalk sharedInstance] applicationDidBecomeActive:application];
+    [[MeetTalkCallManager sharedManager] dismissOngoingCallLocalNotification];
+    
+    // FIXME: TOP VIEW CONTROLLER IS NULL IF NOT DELAYED
+    NSTimeInterval delayInSeconds = 0.2f;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        [[MeetTalkCallManager sharedManager] joinPendingIncomingConferenceCall];
+    });
 }
 
 - (void)applicationWillTerminate:(UIApplication *_Nonnull)application {
@@ -141,13 +152,20 @@
 }
 
 - (void)application:(UIApplication *_Nonnull)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *_Nonnull)deviceToken {
-    
     [[TapTalk sharedInstance] application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
 }
 
 - (void)application:(UIApplication *_Nonnull)application didReceiveRemoteNotification:(NSDictionary *_Nonnull)userInfo fetchCompletionHandler:(void (^_Nonnull)(UIBackgroundFetchResult result))completionHandler {
     
     [[TapTalk sharedInstance] application:application didReceiveRemoteNotification:userInfo fetchCompletionHandler:completionHandler];
+        
+    NSDictionary *messageDictionary = [NSDictionary dictionary];
+    messageDictionary = [userInfo valueForKeyPath:@"data.message"];
+    
+    TAPMessageModel *message = [TAPDataManager messageModelFromPayloadWithUserInfo:messageDictionary];
+    
+    NSLog(@">>>> MeetTalk didReceiveRemoteNotification message: %@", message.body);
+    [[MeetTalkCallManager sharedManager] checkAndHandleCallNotificationFromMessage:message activeUser:[[TapTalk sharedInstance] getTapTalkActiveUser]];
 }
 
 #pragma mark Delegates
@@ -180,6 +198,7 @@
     if (self.delegate && [self.delegate respondsToSelector:@selector(tapTalkDidTappedNotificationWithMessage:fromActiveController:)]) {
         [self.delegate tapTalkDidTappedNotificationWithMessage:message fromActiveController:currentActiveController];
     }
+    [[MeetTalkCallManager sharedManager] joinPendingIncomingConferenceCall];
 }
 
 - (void)userLogout {
@@ -191,7 +210,8 @@
 #pragma mark - PKPushRegistryDelegate
 
 - (void)pushRegistry:(PKPushRegistry *)registry didUpdatePushCredentials:(PKPushCredentials *)pushCredentials forType:(PKPushType)type {
-    
+    NSString *pushToken = [TAPUtil hexadecimalStringFromData:pushCredentials.token];
+    NSLog(@">>>> MeetTalk pushRegistry didUpdatePushCredentials: %@", pushToken);
     if ([pushCredentials.token length] == 0) {
         return;
     }
@@ -199,17 +219,9 @@
 
 - (void)pushRegistry:(PKPushRegistry *)registry didReceiveIncomingPushWithPayload:(PKPushPayload *)payload forType:(PKPushType)type withCompletionHandler:(void (^)(void))completion {
     
-    NSString *uuidString = payload.dictionaryPayload[@"UUID"];
-    NSUUID *uuid = [[NSUUID alloc] initWithUUIDString:uuidString];
-    NSString *phoneNumber = payload.dictionaryPayload[@"PhoneNumber"];
-
-//    TapCallViewController *callViewController = [[TapCallViewController alloc] init];
-//    callViewController.phoneNumber = phoneNumber;
-//    callViewController.isIncoming = YES;
-//    callViewController.uuid = uuid;
-//    UINavigationController *callNavigationViewController = [[UINavigationController alloc] initWithRootViewController:callViewController];
-//    callNavigationViewController.modalPresentationStyle = UIModalPresentationOverFullScreen;
-//    [self presentViewController:callNavigationViewController animated:YES completion:nil];
+//    NSString *uuidString = payload.dictionaryPayload[@"UUID"];
+//    NSUUID *uuid = [[NSUUID alloc] initWithUUIDString:uuidString];
+//    NSString *phoneNumber = payload.dictionaryPayload[@"PhoneNumber"];
 }
 
 #pragma mark - TAPChatManagerDelegate

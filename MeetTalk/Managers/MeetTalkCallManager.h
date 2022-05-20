@@ -67,6 +67,8 @@ typedef NS_ENUM(NSInteger, MeetTalkCallState) {
 - (BOOL)launchMeetTalkCallViewControllerWithRoom:(TAPRoomModel *)room
                                   activeUserName:(NSString *)activeUserName
                              activeUserAvatarUrl:(NSString *)activeUserAvatarUrl;
+- (void)checkAndShowOngoingCallLocalNotification;
+- (void)dismissOngoingCallLocalNotification;
 - (void)checkAndHandleCallNotificationFromMessage:(TAPMessageModel *)message activeUser:(TAPUserModel *)activeUser;
 - (MeetTalkParticipantInfo *)generateParticipantInfoWithRole:(NSString *)role
                                          startWithAudioMuted:(BOOL)startWithAudioMuted

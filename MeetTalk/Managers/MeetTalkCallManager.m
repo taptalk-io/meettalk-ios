@@ -10,6 +10,7 @@
 #import "MeetTalkConfigs.h"
 #import <TapTalk/TAPConnectionManager.h>
 #import <TapTalk/TAPCoreMessageManager.h>
+#import <TapTalk/TAPEncryptorManager.h>
 #import <TapTalk/TAPUtil.h>
 #import <TapTalk/TAPTypes.h>
 #import <CallKit/CallKit.h>
@@ -27,6 +28,7 @@
 @property (nonatomic, strong) NSString *answeredCallID;
 @property (nonatomic, strong) NSTimer *missedCallTimer;
 @property (nonatomic, strong) NSMutableArray<NSString *> *handledCallNotificationMessageLocalIDs;
+@property (nonatomic, strong) UILocalNotification *ongoingCallNotification;
 @property (nonatomic, weak) UIApplication *application;
 @property (nonatomic) BOOL shouldHandleConnectionManagerDelegate;
 @property (nonatomic) TapTalkSocketConnectionMode savedSocketConnectionMode;
@@ -273,7 +275,6 @@
 #endif
     
     self.currentCallUUID = nil;
-    [self clearPendingIncomingCall];
     
     if (self.delegate && [self.delegate respondsToSelector:@selector(callDidEnd)]) {
         [self.delegate callDidEnd];
@@ -431,22 +432,22 @@
         phoneNumber = displayPhoneNumber;
     }
     
-    MeetTalkConferenceInfo *conferenceInfo = [MeetTalkConferenceInfo fromMessageModel:message];
-    NSString *incomingCallString;
-    if (conferenceInfo != nil && conferenceInfo.startWithVideoMuted) {
-        incomingCallString = NSLocalizedString(@"Incoming Video Call", @"");
-    }
-    else {
-        incomingCallString = NSLocalizedString(@"Incoming Voice Call", @"");
-    }
-    
-    NSString *contentText;
-    if (phoneNumber.length > 0) {
-        contentText = [NSString stringWithFormat:@"%@ - %@", incomingCallString, phoneNumber];
-    }
-    else {
-        contentText = incomingCallString;
-    }
+//    MeetTalkConferenceInfo *conferenceInfo = [MeetTalkConferenceInfo fromMessageModel:message];
+//    NSString *incomingCallString;
+//    if (conferenceInfo != nil && conferenceInfo.startWithVideoMuted) {
+//        incomingCallString = NSLocalizedString(@"Incoming Video Call", @"");
+//    }
+//    else {
+//        incomingCallString = NSLocalizedString(@"Incoming Voice Call", @"");
+//    }
+//
+//    NSString *contentText;
+//    if (phoneNumber.length > 0) {
+//        contentText = [NSString stringWithFormat:@"%@ - %@", incomingCallString, phoneNumber];
+//    }
+//    else {
+//        contentText = incomingCallString;
+//    }
     
     // Show incoming call
     self.callState = MeetTalkCallStateRinging;
@@ -464,7 +465,7 @@
     }
     
     NSUUID *uuid = [NSUUID new];
-    [self reportIncomingCallForUUID:uuid phoneNumber:contentText];
+    [self reportIncomingCallForUUID:uuid phoneNumber:phoneNumber];
     [self startMissedCallTimer];
 #ifdef DEBUG
     NSLog(@">>>> showIncomingCallWithMessage: %@ %@", uuid, phoneNumber);
@@ -476,7 +477,7 @@
 //#endif
 }
 
-- (void)dismissIncomingCall {
+- (void)dismissIncomingCall:(BOOL)clearPendingIncomingCall {
     if (self.currentCallUUID == nil) {
         return;
     }
@@ -494,7 +495,10 @@
 #endif
         }
     }];
-    [self clearPendingIncomingCall];
+    
+    if (clearPendingIncomingCall) {
+        [self clearPendingIncomingCall];
+    }
     
     // Trigger delegate callback
     if ([MeetTalk sharedInstance].delegate &&
@@ -508,17 +512,18 @@
     if (self.activeCallMessage == nil) {
         return;
     }
+    BOOL answerHandled = YES;
     if ([MeetTalk sharedInstance].delegate &&
         [[MeetTalk sharedInstance].delegate respondsToSelector:@selector(meetTalkDidAnswerIncomingCall)]
     ) {
         [[MeetTalk sharedInstance].delegate meetTalkDidAnswerIncomingCall];
     }
     else {
-        [self joinPendingIncomingConferenceCall];
+        answerHandled = [self joinPendingIncomingConferenceCall];
     }
     self.answeredCallID = self.activeCallMessage.localID;
-    [self clearPendingIncomingCall];
-    [self dismissIncomingCall];
+    [self dismissIncomingCall:answerHandled];
+    [self checkAndShowOngoingCallLocalNotification];
 }
 
 - (void)rejectIncomingCall {
@@ -608,19 +613,35 @@
 - (void)rejectPendingIncomingConferenceCall {
     if (self.activeCallMessage != nil) {
         [self sendRejectedCallNotification:self.activeCallMessage.room];
+        [[TapTalk sharedInstance] connectWithSuccess:^{
+            [self sendPendingCallNotificationMessages];
+            [self clearPendingIncomingCall];
+        }
+        failure:^(NSError * _Nonnull error) {
+            [self sendPendingCallNotificationMessages];
+            [self clearPendingIncomingCall];
+        }];
     }
-    [self clearPendingIncomingCall];
 }
 
 - (BOOL)joinPendingIncomingConferenceCall {
     if (self.pendingIncomingCallRoomID == nil || self.activeCallMessage == nil) {
         return NO;
     }
-    [self sendAnsweredCallNotification:self.activeCallMessage.room];
-    [self launchMeetTalkCallViewController];
-    self.pendingIncomingCallRoomID = nil;
-    self.pendingIncomingCallPhoneNumber = nil;
-    return YES;
+    if ([self launchMeetTalkCallViewController]) {
+        [self sendAnsweredCallNotification:self.activeCallMessage.room];
+        self.pendingIncomingCallRoomID = nil;
+        self.pendingIncomingCallPhoneNumber = nil;
+        
+        [[TapTalk sharedInstance] connectWithSuccess:^{
+            [self sendPendingCallNotificationMessages];
+        }
+        failure:^(NSError * _Nonnull error) {
+            
+        }];
+        return YES;
+    }
+    return NO;
 }
 
 - (void)closeIncomingCall {
@@ -709,11 +730,45 @@
     [callViewController setDataWithConferenceOptions:options activeCallRoom:self.activeCallMessage.room activeConferenceInfo:self.activeConferenceInfo];
     [topViewController presentViewController:callViewController animated:YES completion:^{
     }];
+    
+    [self checkAndShowOngoingCallLocalNotification];
+    
 #ifdef DEBUG
     NSLog(@">>>> launchMeetTalkCallViewController conferenceRoomID: %@", conferenceRoomID);
 #endif
     
     return YES;
+}
+
+- (void)checkAndShowOngoingCallLocalNotification {
+    if ([[UIApplication sharedApplication] applicationState] == UIApplicationStateActive ||
+        self.activeCallMessage == nil
+    ) {
+        return;
+    }
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self dismissOngoingCallLocalNotification];
+        self.ongoingCallNotification = [[UILocalNotification alloc] init];
+        self.ongoingCallNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:0.1f];
+        self.ongoingCallNotification.alertBody = NSLocalizedString(@"You have an ongoing call, tap here to return.", @"");
+        self.ongoingCallNotification.timeZone = [NSTimeZone defaultTimeZone];
+        self.ongoingCallNotification.soundName = UILocalNotificationDefaultSoundName;
+        self.ongoingCallNotification.applicationIconBadgeNumber = 0;
+        NSMutableDictionary *userInfoDictionary = [NSMutableDictionary dictionary];
+        NSMutableDictionary *dataDictionary = [NSMutableDictionary dictionary];
+        [dataDictionary setObject:[TAPEncryptorManager encryptToDictionaryFromMessageModel:self.activeCallMessage] forKey:@"message"];
+        [userInfoDictionary setObject:dataDictionary forKey:@"data"];
+        self.ongoingCallNotification.userInfo = userInfoDictionary;
+        [[UIApplication sharedApplication] scheduleLocalNotification:self.ongoingCallNotification];
+    });
+}
+
+- (void)dismissOngoingCallLocalNotification {
+    if (self.ongoingCallNotification == nil) {
+        return;
+    }
+    [[UIApplication sharedApplication] cancelLocalNotification:self.ongoingCallNotification];
 }
 
 - (UIViewController *_Nullable) topViewController {
@@ -758,7 +813,8 @@
         [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970] * 1000.0f].longValue - message.created.longValue < INCOMING_CALL_TIMEOUT_DURATION
     ) {
         if (self.callState == MeetTalkCallStateIdle) {
-            if (message.data == nil) {
+            MeetTalkConferenceInfo *conferenceInfo = [MeetTalkConferenceInfo fromMessageModel:message];
+            if (conferenceInfo == nil) {
                 // Received call initiated notification with no data, fetch data from API
                 NSLog(@">>>> checkAndHandleCallNotificationFromMessage: CALL_INITIATED - Fetch data from API");
                 [[TAPCoreMessageManager sharedManager] getNewerMessagesAfterTimestamp:message.created
@@ -1216,7 +1272,10 @@
                 
         }
         failure:^(TAPMessageModel * _Nullable message, NSError * _Nonnull error) {
-                
+#ifdef DEBUG
+            NSLog(@">>>> MeetTalkCallManager failure add to pending array: %@", message.action);
+#endif
+            [self.pendingCallNotificationMessages addObject:message];
         }];
     }
     else {
@@ -1269,6 +1328,7 @@
     self.activeCallMessage = nil;
     self.activeConferenceInfo = nil;
     self.callState = MeetTalkCallStateIdle;
+    [self dismissOngoingCallLocalNotification];
 }
 
 - (void)startMissedCallTimer {
@@ -1300,7 +1360,7 @@
 
 - (void)handleAppExiting:(UIApplication *_Nonnull)application {
     _application = application;
-    [self dismissIncomingCall];
+    [self dismissIncomingCall:YES];
     if (self.pendingCallNotificationMessages.count > 0 ||
         (self.activeCallMessage != nil &&
          self.activeConferenceInfo != nil &&
