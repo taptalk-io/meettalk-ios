@@ -9,8 +9,10 @@
 #import "MeetTalkCallManager.h"
 #import "MeetTalkConfigs.h"
 #import <TapTalk/TAPConnectionManager.h>
+#import <TapTalk/TAPContactManager.h>
 #import <TapTalk/TAPCoreMessageManager.h>
 #import <TapTalk/TAPEncryptorManager.h>
+#import <TapTalk/TAPGroupTargetModel.h>
 #import <TapTalk/TAPUtil.h>
 #import <TapTalk/TAPTypes.h>
 #import <CallKit/CallKit.h>
@@ -659,6 +661,7 @@
     }
     [self sendCallInitiatedNotification:room startWithAudioMuted:startWithAudioMuted startWithVideoMuted:startWithVideoMuted];
     [self launchMeetTalkCallViewController];
+    [self startMissedCallTimer];
 }
 
 - (void)initiateNewConferenceCallWithRoom:(TAPRoomModel *)room
@@ -810,7 +813,7 @@
 
     if ([message.action isEqualToString:CALL_INITIATED] &&
         ![message.user.userID isEqualToString:activeUser.userID] &&
-        [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970] * 1000.0f].longValue - message.created.longValue < INCOMING_CALL_TIMEOUT_DURATION
+        [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970] * 1000.0f].longValue - message.created.longValue < DEFAULT_CALL_TIMEOUT_DURATION
     ) {
         if (self.callState == MeetTalkCallStateIdle) {
             MeetTalkConferenceInfo *conferenceInfo = [MeetTalkConferenceInfo fromMessageModel:message];
@@ -927,6 +930,10 @@
                 [self closeIncomingCall];
                 self.callState = MeetTalkCallStateIdle;
             }
+            MeetTalkConferenceInfo *conferenceInfo = [MeetTalkConferenceInfo fromMessageModel:message];
+            if (conferenceInfo != nil) {
+                self.answeredCallID = conferenceInfo.callID;
+            }
             
             // Trigger delegate callback
             if ([MeetTalk sharedInstance].delegate &&
@@ -984,6 +991,7 @@
 #ifdef DEBUG
             NSLog(@">>>> checkAndHandleCallNotificationFromMessage: %@", message.action);
 #endif
+            [self closeIncomingCall];
             [self.activeMeetTalkCallViewController dismiss];
             [self setActiveCallAsEnded];
             
@@ -1051,7 +1059,20 @@
                                                       action:(NSString *)action {
     
     TAPUserModel *activeUser = [[TapTalk sharedInstance] getTapTalkActiveUser];
-    TAPMessageModel *notificationMessage = [TAPMessageModel createMessageWithUser:activeUser room:room body:body type:CALL_MESSAGE_TYPE messageData:nil];
+    TAPMessageModel *notificationMessage = [TAPMessageModel createMessageWithUser:activeUser
+                                                                             room:room
+                                                                             body:body
+                                                                             type:CALL_MESSAGE_TYPE
+                                                                      messageData:nil];
+    TAPGroupTargetModel *target = [TAPGroupTargetModel new];
+    NSString *otherUserID = [[TAPChatManager sharedManager] getOtherUserIDWithRoomID:room.roomID];
+    TAPUserModel *otherUser = [[TAPContactManager sharedManager] getUserWithUserID:otherUserID];
+    if (otherUser != nil) {
+        target.targetID = otherUser.userID;
+        target.targetXCID = otherUser.xcUserID;
+        target.targetName = otherUser.fullname;
+    }
+    notificationMessage.target = target;
     notificationMessage.action = action;
     return notificationMessage;
 }
@@ -1190,7 +1211,7 @@
 }
 
 - (TAPMessageModel *)sendBusyNotification:(TAPRoomModel *)room {
-    TAPMessageModel *message = [self generateCallNotificationMessageWithRoom:room body:@"{{sender}} is busy." action:RECIPIENT_BUSY];
+    TAPMessageModel *message = [self generateCallNotificationMessageWithRoom:room body:@"{{sender}} was in another call." action:RECIPIENT_BUSY];
     message = [self setMessageConferenceInfoAsEnded:message];
     
     [self setActiveCallAsEnded];
@@ -1212,7 +1233,7 @@
 }
 
 - (TAPMessageModel *)sendMissedCallNotification:(TAPRoomModel *)room {
-    TAPMessageModel *message = [self generateCallNotificationMessageWithRoom:room body:@"{{sender}} missed call." action:RECIPIENT_MISSED_CALL];
+    TAPMessageModel *message = [self generateCallNotificationMessageWithRoom:room body:@"{{target}} missed the call." action:RECIPIENT_MISSED_CALL];
     message = [self setMessageConferenceInfoAsEnded:message];
     
     [self setActiveCallAsEnded];
@@ -1340,17 +1361,33 @@
         [self.missedCallTimer invalidate];
     }
     
-    NSTimeInterval missedCallInterval = ((INCOMING_CALL_TIMEOUT_DURATION + self.activeCallMessage.created.longValue) / 1000.0f) - [[NSDate date] timeIntervalSince1970];
+    NSNumber *currentTime = [TAPUtil currentTimeInMillis];
+    NSTimeInterval missedCallInterval = (DEFAULT_CALL_TIMEOUT_DURATION + self.activeCallMessage.created.longValue - currentTime.longValue) / 1000;
     
     self.missedCallTimer = [NSTimer scheduledTimerWithTimeInterval:missedCallInterval target:self selector:@selector(missedCallTimerFired) userInfo:nil repeats:NO];
 }
 
 - (void)missedCallTimerFired {
-    if (self.callState == MeetTalkCallStateRinging) {
+    if ((self.activeMeetTalkCallViewController != nil && self.activeMeetTalkCallViewController.isCallStarted) ||
+        (self.activeConferenceInfo != nil && [self.answeredCallID isEqualToString:self.activeConferenceInfo.callID]) ||
+        self.callState == MeetTalkCallStateIdle
+    ) {
+        // Cancel timer
+        NSLog(@">>>> missedCallTimerFired: Cancel timer");
+    }
+    else if (self.callState == MeetTalkCallStateRinging && self.pendingIncomingCallRoomID == nil) {
+        // Close incoming call
+        [self closeIncomingCall];
+        NSLog(@">>>> missedCallTimerFired: Close incoming call");
+    }
+    else {
         // Send missed call notification
         [self sendMissedCallNotification:self.activeCallMessage.room];
         [self closeIncomingCall];
+        [self.activeMeetTalkCallViewController dismiss];
+        [self setActiveCallAsEnded];
         self.callState = MeetTalkCallStateIdle;
+        NSLog(@">>>> missedCallTimerFired: Send missed call notification");
     }
     
     if (self.missedCallTimer != nil) {
