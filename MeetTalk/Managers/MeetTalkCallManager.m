@@ -34,6 +34,7 @@
 @property (nonatomic, weak) UIApplication *application;
 @property (nonatomic) BOOL shouldHandleConnectionManagerDelegate;
 @property (nonatomic) TapTalkSocketConnectionMode savedSocketConnectionMode;
+@property (nonatomic) UIBackgroundTaskIdentifier backgroundTaskIdentifier;
 
 @end
 
@@ -844,7 +845,7 @@
                     }
                 }
                 failure:^(NSError * _Nonnull error) {
-                    
+                    NSLog(@">>>> checkAndHandleCallNotificationFromMessage: CALL_INITIATED - Fetch data from API error: %@", error.localizedDescription);
                 }];
             }
             else {
@@ -1296,14 +1297,49 @@
 #ifdef DEBUG
             NSLog(@">>>> MeetTalkCallManager failure add to pending array: %@", message.action);
 #endif
-            [self.pendingCallNotificationMessages addObject:message];
+            [self sendCallNotificationMessageWithAPI:message];
         }];
     }
     else {
 #ifdef DEBUG
         NSLog(@">>>> MeetTalkCallManager add to pending array: %@", message.action);
 #endif
-        [self.pendingCallNotificationMessages addObject:message];
+        [self sendCallNotificationMessageWithAPI:message];
+    }
+}
+
+- (void)sendCallNotificationMessageWithAPI:(TAPMessageModel *)message {
+    @try {
+        NSLog(@">>>> MeetTalkCallManager sendCallNotificationMessageWithAPI: %@", message.action);
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),^{
+            self.backgroundTaskIdentifier = [[UIApplication sharedApplication] beginBackgroundTaskWithName:@"sendCallNotificationMessage" expirationHandler:^{
+                NSLog(@">>>> MeetTalkCallManager sendCallNotificationMessageWithAPI expirationHandler: %@", message.action);
+                [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTaskIdentifier];
+                self.backgroundTaskIdentifier = UIBackgroundTaskInvalid;
+            }];
+            NSString *otherUserID = [[TAPChatManager sharedManager] getOtherUserIDWithRoomID:message.room.roomID];
+            NSLog(@">>>> MeetTalkCallManager sendCallNotificationMessageWithAPI callAPISendCustomMessage: %@", message.action);
+            [TAPDataManager callAPISendCustomMessageToPersonalRoomWithRecipientUserID:otherUserID
+                                                                              localID:message.localID
+                                                                          messageType:message.type
+                                                                                 body:message.body
+                                                                                 data:message.data
+                                                                             filterID:message.filterID
+                                                                             isHidden:message.isHidden
+            success:^{
+                [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTaskIdentifier];
+                self.backgroundTaskIdentifier = UIBackgroundTaskInvalid;
+                NSLog(@">>>> MeetTalkCallManager sendCallNotificationMessageWithAPI callAPISendCustomMessage succcess: %@", message.action);
+            }
+            failure:^(NSError *error) {
+                NSLog(@">>>> MeetTalkCallManager sendCallNotificationMessageWithAPI callAPISendCustomMessage error: %@ %@", message.action, error.localizedDescription);
+                [self.pendingCallNotificationMessages addObject:message];
+                [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTaskIdentifier];
+                self.backgroundTaskIdentifier = UIBackgroundTaskInvalid;
+            }];
+        });
+    } @catch (NSException *exception) {
+        NSLog(@">>>> MeetTalkCallManager sendCallNotificationMessageWithAPI callAPISendCustomMessage exception: %@", exception.description);
     }
 }
 
@@ -1375,8 +1411,9 @@
         // Cancel timer
         NSLog(@">>>> missedCallTimerFired: Cancel timer");
     }
-    else if (self.callState == MeetTalkCallStateRinging && self.pendingIncomingCallRoomID == nil) {
+    else if (self.callState == MeetTalkCallStateRinging && self.pendingIncomingCallRoomID != nil) {
         // Close incoming call
+        self.answeredCallID = self.activeCallMessage.localID; // Prevent reject call notification from being sent
         [self closeIncomingCall];
         NSLog(@">>>> missedCallTimerFired: Close incoming call");
     }
