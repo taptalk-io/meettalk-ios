@@ -11,12 +11,14 @@
 #import <TapTalk/TAPConnectionManager.h>
 #import <TapTalk/TAPContactManager.h>
 #import <TapTalk/TAPCoreMessageManager.h>
+#import <TapTalk/TAPDataManager.h>
 #import <TapTalk/TAPEncryptorManager.h>
 #import <TapTalk/TAPGroupTargetModel.h>
 #import <TapTalk/TAPUtil.h>
 #import <TapTalk/TAPTypes.h>
 #import <CallKit/CallKit.h>
 #import <CallKit/CXError.h>
+#import <AudioToolbox/AudioToolbox.h>
 
 @import JitsiMeetSDK;
 
@@ -31,10 +33,13 @@
 @property (nonatomic, strong) NSTimer *missedCallTimer;
 @property (nonatomic, strong) NSMutableArray<NSString *> *handledCallNotificationMessageLocalIDs;
 @property (nonatomic, strong) UILocalNotification *ongoingCallNotification;
+@property (nonatomic, strong) AVAudioPlayer *audioPlayer;
 @property (nonatomic, weak) UIApplication *application;
 @property (nonatomic) BOOL shouldHandleConnectionManagerDelegate;
+@property (nonatomic) BOOL isRingTonePlaying;
 @property (nonatomic) TapTalkSocketConnectionMode savedSocketConnectionMode;
 @property (nonatomic) UIBackgroundTaskIdentifier backgroundTaskIdentifier;
+@property (nonatomic) SystemSoundID outgoingCallSystemSoundID;
 
 @end
 
@@ -663,6 +668,8 @@
     [self sendCallInitiatedNotification:room startWithAudioMuted:startWithAudioMuted startWithVideoMuted:startWithVideoMuted];
     [self launchMeetTalkCallViewController];
     [self startMissedCallTimer];
+    
+    [self playOutgoingCallRingTone];
 }
 
 - (void)initiateNewConferenceCallWithRoom:(TAPRoomModel *)room
@@ -935,6 +942,7 @@
             if (conferenceInfo != nil) {
                 self.answeredCallID = conferenceInfo.callID;
             }
+            [self stopAudioPlayer];
             
             // Trigger delegate callback
             if ([MeetTalk sharedInstance].delegate &&
@@ -1165,9 +1173,15 @@
 
 - (TAPMessageModel *)sendAnsweredCallNotification:(TAPRoomModel *)room {
     TAPMessageModel *message = [self generateCallNotificationMessageWithRoom:room body:@"{{sender}} answered call." action:RECIPIENT_ANSWERED_CALL];
+    
     if (self.activeConferenceInfo != nil) {
         [self.activeConferenceInfo attachToMessage:message];
+        message.filterID = self.activeConferenceInfo.callID;
     }
+    else {
+        message.filterID = @"";
+    }
+    
     //message.isHidden = YES;
     
     [self sendCallNotificationMessage:message];
@@ -1186,11 +1200,17 @@
     MeetTalkParticipantInfo *participant = [self generateParticipantInfoWithRole:PARTICIPANT
                                                              startWithAudioMuted:startWithAudioMuted
                                                              startWithVideoMuted:startWithVideoMuted];
+    
     if (self.activeConferenceInfo != nil) {
         [self.activeConferenceInfo updateParticipant:participant];
         self.activeConferenceInfo.lastUpdated = message.created;
         [self.activeConferenceInfo attachToMessage:message];
+        message.filterID = self.activeConferenceInfo.callID;
     }
+    else {
+        message.filterID = @"";
+    }
+    
     message.isHidden = YES;
     
     [self sendCallNotificationMessage:message];
@@ -1200,10 +1220,16 @@
 
 - (TAPMessageModel *)sendLeftCallNotification:(TAPRoomModel *)room {
     TAPMessageModel *message = [self generateCallNotificationMessageWithRoom:room body:@"{{sender}} left call." action:PARTICIPANT_LEFT_CONFERENCE];
+    
     if (self.activeConferenceInfo != nil) {
         self.activeConferenceInfo.lastUpdated = message.created;
         [self.activeConferenceInfo attachToMessage:message];
+        message.filterID = self.activeConferenceInfo.callID;
     }
+    else {
+        message.filterID = @"";
+    }
+    
     message.isHidden = YES;
     
     [self sendCallNotificationMessage:message];
@@ -1246,6 +1272,15 @@
 
 - (TAPMessageModel *)sendUnableToReceiveCallNotification:(NSString *)body room:(TAPRoomModel *)room {
     TAPMessageModel *message = [self generateCallNotificationMessageWithRoom:room body:body action:RECIPIENT_UNABLE_TO_RECEIVE_CALL];
+    
+    if (self.activeConferenceInfo != nil) {
+        [self.activeConferenceInfo attachToMessage:message];
+        message.filterID = self.activeConferenceInfo.callID;
+    }
+    else {
+        message.filterID = @"";
+    }
+    
     message.isHidden = YES;
     
     [self setActiveCallAsEnded];
@@ -1385,6 +1420,7 @@
     self.activeCallMessage = nil;
     self.activeConferenceInfo = nil;
     self.callState = MeetTalkCallStateIdle;
+    [self stopAudioPlayer];
     [self dismissOngoingCallLocalNotification];
 }
 
@@ -1476,6 +1512,27 @@
         }
         //exit(0);
     }];
+}
+
+- (void)playOutgoingCallRingTone {
+    [self playAudioWithResourceName:@"MeetTalkToneOutgoingCallRingTone"];
+}
+
+- (void)playAudioWithResourceName:(NSString *)name {
+    [self stopAudioPlayer];
+    NSDataAsset *audioData = [[NSDataAsset alloc] initWithName:name bundle:[MeetTalk bundle]];
+    NSError *error;
+    self.audioPlayer = [[AVAudioPlayer alloc] initWithData:audioData.data error:&error];
+    self.audioPlayer.numberOfLoops = -1;
+    [self.audioPlayer prepareToPlay];
+    [self.audioPlayer play];
+}
+
+- (void)stopAudioPlayer {
+    if (self.audioPlayer != nil) {
+        [self.audioPlayer stop];
+        self.audioPlayer = nil;
+    }
 }
 
 @end

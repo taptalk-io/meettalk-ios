@@ -3,7 +3,7 @@ Pod::Spec.new do |s|
   # ―――  Spec Metadata  ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
 
     s.name         = "MeetTalk"
-    s.version      = "0.9.0"
+    s.version      = "0.9.1"
     s.summary      = "MeetTalk iOS SDK is an extension of TapTalk.io SDK, providing complete in-app chat SDK with the addition of voice and video call feature."
     s.homepage     = "https://taptalk.io"
 
