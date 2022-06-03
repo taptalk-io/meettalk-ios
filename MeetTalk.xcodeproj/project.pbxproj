@@ -17,6 +17,7 @@
 		0A0808F627E2F7D800F658B2 /* MeetTalkParticipantInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A0808F427E2F7D800F658B2 /* MeetTalkParticipantInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0A0808F727E2F7D800F658B2 /* MeetTalkParticipantInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0808F527E2F7D800F658B2 /* MeetTalkParticipantInfo.m */; };
 		0A2C410627CF832C004AD641 /* MeetTalk.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A2C410527CF832C004AD641 /* MeetTalk.m */; };
+		0A5E49D72849C2930056C44E /* MeetTalkAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0AF7438527D20650005660EB /* MeetTalkAssets.xcassets */; };
 		0A9675F827EB1393006CD5DC /* MeetTalkCallManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A9675F627EB1393006CD5DC /* MeetTalkCallManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0A9675F927EB1393006CD5DC /* MeetTalkCallManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A9675F727EB1393006CD5DC /* MeetTalkCallManager.m */; };
 		0AC9AFA327CE25E2006A2575 /* MeetTalk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AC9AF9A27CE25E2006A2575 /* MeetTalk.framework */; };
@@ -24,7 +25,6 @@
 		0AC9AFA927CE25E2006A2575 /* MeetTalk.h in Headers */ = {isa = PBXBuildFile; fileRef = 0AC9AF9D27CE25E2006A2575 /* MeetTalk.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0AF7437527D1FB9A005660EB /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0AF7437727D1FB9A005660EB /* Localizable.strings */; };
 		0AF7438627D20650005660EB /* MeetTalkConfigs.h in Headers */ = {isa = PBXBuildFile; fileRef = 0AF7438427D20650005660EB /* MeetTalkConfigs.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0AF7438727D20650005660EB /* MeetTalkAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0AF7438527D20650005660EB /* MeetTalkAssets.xcassets */; };
 		0AF7438927D20669005660EB /* MeetTalkStyle.h in Headers */ = {isa = PBXBuildFile; fileRef = 0AF7438827D20669005660EB /* MeetTalkStyle.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0AF7438D27D224E3005660EB /* MeetTalkCallViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 0AF7438A27D224E3005660EB /* MeetTalkCallViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0AF7438E27D224E3005660EB /* MeetTalkCallViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AF7438B27D224E3005660EB /* MeetTalkCallViewController.m */; };
@@ -42,6 +42,18 @@
 			remoteInfo = MeetTalk;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		0A5E49DB2849F03D0056C44E /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 7;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0A0808E327E1C02E00F658B2 /* MeetTalkCallChatBubbleTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeetTalkCallChatBubbleTableViewCell.h; sourceTree = "<group>"; };
@@ -254,6 +266,7 @@
 				0AC9AF9727CE25E2006A2575 /* Frameworks */,
 				0AC9AF9827CE25E2006A2575 /* Resources */,
 				2106D11F82605DBD13CCD37A /* [CP] Copy Pods Resources */,
+				0A5E49DB2849F03D0056C44E /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -327,10 +340,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A5E49D72849C2930056C44E /* MeetTalkAssets.xcassets in Resources */,
 				0AF7437527D1FB9A005660EB /* Localizable.strings in Resources */,
 				0AF7438F27D224E3005660EB /* MeetTalkCallViewController.xib in Resources */,
 				0A0808E827E1C02E00F658B2 /* MeetTalkCallChatBubbleTableViewCell.xib in Resources */,
-				0AF7438727D20650005660EB /* MeetTalkAssets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -638,7 +651,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.9.0;
+				MARKETING_VERSION = 0.9.1;
 				OTHER_CFLAGS = (
 					"$(inherited)",
 					"-fmodule-map-file=\"${SRCROOT}/MeetTalk/Supporting Files/MeetTalk.modulemap\"",
@@ -714,7 +727,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.9.0;
+				MARKETING_VERSION = 0.9.1;
 				OTHER_CFLAGS = (
 					"$(inherited)",
 					"-fmodule-map-file=\"${SRCROOT}/MeetTalk/Supporting Files/MeetTalk.modulemap\"",

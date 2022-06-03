@@ -89,6 +89,8 @@ typedef NS_ENUM(NSInteger, MeetTalkCallState) {
 - (void)setActiveCallData:(TAPMessageModel *)message;
 - (void)setActiveCallAsEnded;
 - (void)handleAppExiting:(UIApplication *_Nonnull)application;
+- (void)playOutgoingCallRingTone;
+- (void)stopAudioPlayer;
 
 @end
 

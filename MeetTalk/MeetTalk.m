@@ -13,11 +13,11 @@
 #import <TapTalk/TAPCoreMessageManager.h>
 #import <TapTalk/TAPUtil.h>
 #import <Intents/Intents.h>
-#import <PushKit/PushKit.h>
+//#import <PushKit/PushKit.h>
 
 @import JitsiMeetSDK;
 
-@interface MeetTalk () <PKPushRegistryDelegate, TapTalkDelegate, TAPChatManagerDelegate, MeetTalkCallChatBubbleTableViewCellDelegate>
+@interface MeetTalk () </*PKPushRegistryDelegate, */TapTalkDelegate, TAPChatManagerDelegate, MeetTalkCallChatBubbleTableViewCellDelegate>
 
 @property (strong, nonatomic) NSString *appID;
 
@@ -98,9 +98,9 @@
     [MeetTalkCallManager sharedManager];
         
     // Initialize PKPushRegistry
-    PKPushRegistry *pushRegistry = [[PKPushRegistry alloc] initWithQueue:dispatch_get_main_queue()];
-    pushRegistry.delegate = self;
-    pushRegistry.desiredPushTypes = [NSSet setWithObject:PKPushTypeVoIP];
+//    PKPushRegistry *pushRegistry = [[PKPushRegistry alloc] initWithQueue:dispatch_get_main_queue()];
+//    pushRegistry.delegate = self;
+//    pushRegistry.desiredPushTypes = [NSSet setWithObject:PKPushTypeVoIP];
     
     if (tapTalkImplementationType != TapTalkImplentationTypeCore) {
         // Initialize call message bubble
@@ -207,22 +207,22 @@
     }
 }
 
-#pragma mark - PKPushRegistryDelegate
-
-- (void)pushRegistry:(PKPushRegistry *)registry didUpdatePushCredentials:(PKPushCredentials *)pushCredentials forType:(PKPushType)type {
-    NSString *pushToken = [TAPUtil hexadecimalStringFromData:pushCredentials.token];
-    NSLog(@">>>> MeetTalk pushRegistry didUpdatePushCredentials: %@", pushToken);
-    if ([pushCredentials.token length] == 0) {
-        return;
-    }
-}
-
-- (void)pushRegistry:(PKPushRegistry *)registry didReceiveIncomingPushWithPayload:(PKPushPayload *)payload forType:(PKPushType)type withCompletionHandler:(void (^)(void))completion {
-    
-//    NSString *uuidString = payload.dictionaryPayload[@"UUID"];
-//    NSUUID *uuid = [[NSUUID alloc] initWithUUIDString:uuidString];
-//    NSString *phoneNumber = payload.dictionaryPayload[@"PhoneNumber"];
-}
+//#pragma mark - PKPushRegistryDelegate
+//
+//- (void)pushRegistry:(PKPushRegistry *)registry didUpdatePushCredentials:(PKPushCredentials *)pushCredentials forType:(PKPushType)type {
+//    NSString *pushToken = [TAPUtil hexadecimalStringFromData:pushCredentials.token];
+//    NSLog(@">>>> MeetTalk pushRegistry didUpdatePushCredentials: %@", pushToken);
+//    if ([pushCredentials.token length] == 0) {
+//        return;
+//    }
+//}
+//
+//- (void)pushRegistry:(PKPushRegistry *)registry didReceiveIncomingPushWithPayload:(PKPushPayload *)payload forType:(PKPushType)type withCompletionHandler:(void (^)(void))completion {
+//
+////    NSString *uuidString = payload.dictionaryPayload[@"UUID"];
+////    NSUUID *uuid = [[NSUUID alloc] initWithUUIDString:uuidString];
+////    NSString *phoneNumber = payload.dictionaryPayload[@"PhoneNumber"];
+//}
 
 #pragma mark - TAPChatManagerDelegate
 

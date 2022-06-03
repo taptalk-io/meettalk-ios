@@ -566,6 +566,7 @@
     ) {
         // Recipient has joined, mark the call as started
         self.isCallStarted = YES;
+        [[MeetTalkCallManager sharedManager] stopAudioPlayer];
         if ([MeetTalkCallManager sharedManager].activeConferenceInfo.callStartedTime.longValue == 0L) {
             [MeetTalkCallManager sharedManager].activeConferenceInfo.callStartedTime = [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970] * 1000.0f];
         }
