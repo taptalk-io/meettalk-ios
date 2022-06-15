@@ -26,6 +26,7 @@
 @property (strong, nonatomic) IBOutlet TAPImageView *profilePictureImageView;
 @property (strong, nonatomic) IBOutlet UILabel *roomDisplayNameLabel;
 @property (strong, nonatomic) IBOutlet UILabel *callDurationStatusLabel;
+@property (strong, nonatomic) IBOutlet UIImageView *toggleLoudspeakerIconImageView;
 @property (strong, nonatomic) IBOutlet UIImageView *toggleVideoMuteIconImageView;
 @property (strong, nonatomic) IBOutlet UIImageView *toggleAudioMuteIconImageView;
 @property (strong, nonatomic) IBOutlet UIImageView *hangUpIconImageView;
@@ -36,15 +37,19 @@
 @property (strong, nonatomic) IBOutlet UIView *buttonContainerView;
 @property (strong, nonatomic) IBOutlet UIView *buttonContainerBackgroundView;
 @property (strong, nonatomic) IBOutlet UIView *innerButtonContainerView;
+@property (strong, nonatomic) IBOutlet UIView *toggleLoudspeakerButtonContainerView;
 @property (strong, nonatomic) IBOutlet UIView *toggleVideoMuteButtonContainerView;
 @property (strong, nonatomic) IBOutlet UIView *toggleAudioMuteButtonContainerView;
 @property (strong, nonatomic) IBOutlet UIView *hangUpButtonContainerView;
+@property (strong, nonatomic) IBOutlet UIButton *toggleLoudspeakerButton;
 @property (strong, nonatomic) IBOutlet UIButton *toggleVideoMuteButton;
 @property (strong, nonatomic) IBOutlet UIButton *toggleAudioMuteButton;
 @property (strong, nonatomic) IBOutlet UIButton *hangUpButton;
 
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *labelContainerViewTopConstraint;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *innerButtonContainerViewBottomConstraint;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *toggleLoudspeakerButtonContainerViewWidthConstraint;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *toggleLoudspeakerButtonContainerViewLeadingConstraint;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *toggleVideoMuteButtonContainerViewLeadingConstraint;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *toggleAudioMuteButtonContainerViewLeadingConstraint;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *hangUpButtonContainerViewLeadingConstraint;
@@ -58,6 +63,7 @@
 @property (strong, nonatomic) NSString *roomDisplayName;
 @property (strong, nonatomic) NSTimer *durationTimer;
 
+@property (nonatomic) BOOL isLoudspeakerActive;
 @property (nonatomic) BOOL isAudioMuted;
 @property (nonatomic) BOOL isVideoMuted;
 @property (nonatomic) long callStartTimestamp;
@@ -128,6 +134,17 @@
     ) {
         [[MeetTalk sharedInstance].delegate meetTalkDidJoinConference:[MeetTalkCallManager sharedManager].activeConferenceInfo];
     }
+    
+    NSTimeInterval delayInSeconds = 0.1f;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        // Force loudspeaker to initial state
+        [self forceLoudspeakerState];
+        if (self.activeCallRoom.type == RoomTypePersonal && [self.activeParticipantInfo.role isEqualToString:HOST]) {
+            // Play outgoing ring tone
+            [[MeetTalkCallManager sharedManager] playOutgoingCallRingTone];
+        }
+    });
 }
 
 - (void)conferenceTerminated:(NSDictionary *)data {
@@ -241,6 +258,13 @@
         _isAudioMuted = [MeetTalkCallManager sharedManager].defaultAudioMuted;
         _isVideoMuted = [MeetTalkCallManager sharedManager].defaultVideoMuted;
     }
+    
+    if (!self.isVideoMuted && ![self isHeadsetConnected]) {
+        // Turn loudspeaker on when starting video call with no headset connected
+        self.isLoudspeakerActive = YES;
+    }
+    // Force loudspeaker state at start
+    [self forceLoudspeakerState];
 }
 
 - (void)initView {
@@ -270,19 +294,17 @@
         self.callDurationStatusLabel.textColor = [[MeetTalkStyleManager sharedManager] getComponentColorForType:MeetTalkCallScreenDurationStatusLabelComponentColor];
         self.callDurationStatusLabel.font = [[MeetTalkStyleManager sharedManager] getComponentFontForType:MeetTalkCallScreenDurationStatusLabelComponentFont];
         
+        self.toggleLoudspeakerButtonContainerView.layer.cornerRadius = CGRectGetHeight(self.toggleLoudspeakerButtonContainerView.frame) / 2.0f;
         self.toggleVideoMuteButtonContainerView.layer.cornerRadius = CGRectGetHeight(self.toggleVideoMuteButtonContainerView.frame) / 2.0f;
-        self.toggleVideoMuteButtonContainerView.clipsToBounds = YES;
         self.toggleAudioMuteButtonContainerView.layer.cornerRadius = CGRectGetHeight(self.toggleAudioMuteButtonContainerView.frame) / 2.0f;
-        self.toggleAudioMuteButtonContainerView.clipsToBounds = YES;
         self.hangUpButtonContainerView.layer.cornerRadius = CGRectGetHeight(self.hangUpButtonContainerView.frame) / 2.0f;
+        self.toggleLoudspeakerButtonContainerView.clipsToBounds = YES;
+        self.toggleVideoMuteButtonContainerView.clipsToBounds = YES;
+        self.toggleAudioMuteButtonContainerView.clipsToBounds = YES;
         self.hangUpButtonContainerView.clipsToBounds = YES;
         
-        // Fix button gaps
-        CGFloat buttonGapWidth = (CGRectGetWidth([UIScreen mainScreen].bounds) - (CGRectGetWidth(self.hangUpButton.frame) * 3)) / 4; // 3 buttons, 3 + 1 gaps
-        self.hangUpButtonContainerViewTrailingConstraint.constant = buttonGapWidth;
-        self.hangUpButtonContainerViewLeadingConstraint.constant = buttonGapWidth;
-        self.toggleAudioMuteButtonContainerViewLeadingConstraint.constant = buttonGapWidth;
-        self.toggleVideoMuteButtonContainerViewLeadingConstraint.constant = buttonGapWidth;
+        //[self fixButtonGaps:self.isVideoMuted];
+        [self fixButtonGaps:YES];
         
         self.roomDisplayNameLabel.text = self.roomDisplayName;
         
@@ -290,13 +312,30 @@
         
         self.toggleAudioMuteButtonContainerView.alpha = 0.5f;
         self.toggleVideoMuteButtonContainerView.alpha = 0.5f;
+        self.toggleLoudspeakerButtonContainerView.alpha = 0.5f;
         [self showAudioButtonMuted:self.isAudioMuted];
         [self showVideoButtonMuted:self.isVideoMuted];
+        [self showLoudspeakerButtonActive:self.isLoudspeakerActive];
         
         [self.hangUpButton addTarget:self
                               action:@selector(hangUpButtonDidTapped)
                     forControlEvents:UIControlEventTouchUpInside];
     });
+}
+
+- (void)fixButtonGaps:(BOOL)showLoudspeakerButton {
+    NSInteger buttonCount = 3 + showLoudspeakerButton;
+    CGFloat buttonGapWidth = (CGRectGetWidth([UIScreen mainScreen].bounds) - (CGRectGetWidth(self.hangUpButton.frame) * buttonCount)) / (buttonCount + 1);
+    self.hangUpButtonContainerViewTrailingConstraint.constant = buttonGapWidth;
+    self.hangUpButtonContainerViewLeadingConstraint.constant = buttonGapWidth;
+    self.toggleAudioMuteButtonContainerViewLeadingConstraint.constant = buttonGapWidth;
+    self.toggleVideoMuteButtonContainerViewLeadingConstraint.constant = buttonGapWidth;
+    if (showLoudspeakerButton) {
+        self.toggleLoudspeakerButtonContainerViewLeadingConstraint.constant = buttonGapWidth;
+    }
+    else {
+        self.toggleLoudspeakerButtonContainerViewLeadingConstraint.constant = 0.0f;
+    }
 }
 
 - (void)joinConference {
@@ -326,10 +365,14 @@
         [self.toggleVideoMuteButton addTarget:self
                                        action:@selector(toggleVideoMuteButtonDidTapped)
                              forControlEvents:UIControlEventTouchUpInside];
+        [self.toggleLoudspeakerButton addTarget:self
+                                        action:@selector(toggleLoudspeakerButtonDidTapped)
+                              forControlEvents:UIControlEventTouchUpInside];
         
         [UIView animateWithDuration:0.2f animations:^{
             self.toggleAudioMuteButtonContainerView.alpha = 1.0f;
             self.toggleVideoMuteButtonContainerView.alpha = 1.0f;
+            self.toggleLoudspeakerButtonContainerView.alpha = 1.0f;
         }];
     });
 }
@@ -365,6 +408,8 @@
             self.labelContainerView.alpha = 1.0f;
             self.labelContainerViewTopConstraint.constant = 80.0f;
             self.innerButtonContainerViewBottomConstraint.constant = 80.0f;
+//            self.toggleLoudspeakerButtonContainerViewWidthConstraint.constant = CGRectGetWidth(self.hangUpButtonContainerView.frame);
+//            [self fixButtonGaps:YES];
             [self.view layoutIfNeeded];
         }];
     });
@@ -386,6 +431,8 @@
             self.labelContainerView.alpha = 0.0f;
             self.labelContainerViewTopConstraint.constant = 24.0f;
             self.innerButtonContainerViewBottomConstraint.constant = 24.0f;
+//            self.toggleLoudspeakerButtonContainerViewWidthConstraint.constant = 0.0f;
+//            [self fixButtonGaps:NO];
             [self.view layoutIfNeeded];
         }];
     });
@@ -447,6 +494,10 @@
     if (self.isCallStarted) {
         [[MeetTalkCallManager sharedManager] sendConferenceInfoNotification:self.activeCallRoom];
     }
+//    if (!self.isVideoMuted && !self.isLoudspeakerActive && ![self isHeadsetConnected]) {
+//        // Turn loudspeaker on when switching video on without headset
+//        [self toggleLoudspeakerButtonDidTapped];
+//    }
 }
 
 - (void)showVideoButtonMuted:(BOOL)isVideoMuted {
@@ -458,6 +509,63 @@
         else {
             self.toggleVideoMuteIconImageView.image = [UIImage imageNamed:@"MeetTalkIconVideoCameraWhite" inBundle:[MeetTalk bundle] compatibleWithTraitCollection:nil];
             self.toggleVideoMuteButtonContainerView.backgroundColor = [[MeetTalkStyleManager sharedManager] getComponentColorForType:MeetTalkCallScreenActiveButtonBackgroundComponentColor];
+        }
+    });
+}
+
+- (void)toggleLoudspeakerButtonDidTapped {
+    self.isLoudspeakerActive = !self.isLoudspeakerActive;
+    [self showLoudspeakerButtonActive:self.isLoudspeakerActive];
+    [self forceLoudspeakerState];
+}
+
+- (void)forceLoudspeakerState {
+    NSError *setCategoryError;
+    NSError *overridePortError;
+    AVAudioSession *session = [AVAudioSession sharedInstance];
+    if (self.isLoudspeakerActive) {
+        [session setCategory:AVAudioSessionCategoryPlayAndRecord
+                        mode:AVAudioSessionModeVideoChat
+                     options:nil
+                       error:&setCategoryError];
+        [session overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:&overridePortError];
+    }
+    else {
+        [session setCategory:AVAudioSessionCategoryPlayAndRecord
+                        mode:AVAudioSessionModeVoiceChat
+                     options:AVAudioSessionCategoryOptionAllowBluetooth
+                       error:&setCategoryError];
+        [session overrideOutputAudioPort:AVAudioSessionPortBuiltInReceiver error:&overridePortError];
+    }
+}
+
+- (BOOL)isHeadsetConnected {
+    AVAudioSessionRouteDescription *routeDescription = [[AVAudioSession sharedInstance] currentRoute];
+    if (routeDescription) {
+        NSArray<AVAudioSessionPortDescription *> *outputs = [routeDescription outputs];
+        if (outputs && [outputs count] > 0) {
+            for (AVAudioSessionPortDescription *portDescription in outputs) {
+                if ([[portDescription portType] isEqualToString:AVAudioSessionPortHeadphones] ||
+                    [[portDescription portType] isEqualToString:AVAudioSessionPortBluetoothA2DP] ||
+                    [[portDescription portType] isEqualToString:AVAudioSessionPortBluetoothHFP]
+                ) {
+                    return YES;
+                }
+            }
+        }
+    }
+    return NO;
+}
+
+- (void)showLoudspeakerButtonActive:(BOOL)isLoudspeakerActive {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (isLoudspeakerActive) {
+            self.toggleLoudspeakerIconImageView.image = [UIImage imageNamed:@"MeetTalkIconSoundOnWhite" inBundle:[MeetTalk bundle] compatibleWithTraitCollection:nil];
+            self.toggleLoudspeakerButtonContainerView.backgroundColor = [[MeetTalkStyleManager sharedManager] getComponentColorForType:MeetTalkCallScreenActiveButtonBackgroundComponentColor];
+        }
+        else {
+            self.toggleLoudspeakerIconImageView.image = [UIImage imageNamed:@"MeetTalkIconSoundOffWhite" inBundle:[MeetTalk bundle] compatibleWithTraitCollection:nil];
+            self.toggleLoudspeakerButtonContainerView.backgroundColor = [[MeetTalkStyleManager sharedManager] getComponentColorForType:MeetTalkCallScreenInactiveButtonBackgroundComponentColor];
         }
     });
 }
@@ -598,6 +706,9 @@
         [[MeetTalkCallManager sharedManager] setActiveCallAsEnded];
         [MeetTalkCallManager sharedManager].activeMeetTalkCallViewController = nil;
         [MeetTalkCallManager sharedManager].callState = MeetTalkCallStateIdle;
+        AVAudioSession *session = [AVAudioSession sharedInstance];
+        [session setMode:AVAudioSessionModeDefault error:nil];
+        [session overrideOutputAudioPort:AVAudioSessionPortOverrideNone error:nil];
     }];
 }
 

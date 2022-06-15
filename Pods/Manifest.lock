@@ -26,9 +26,9 @@ PODS:
   - Realm (10.1.0):
     - Realm/Headers (= 10.1.0)
   - Realm/Headers (10.1.0)
-  - SDWebImage (5.12.5):
-    - SDWebImage/Core (= 5.12.5)
-  - SDWebImage/Core (5.12.5)
+  - SDWebImage (5.12.6):
+    - SDWebImage/Core (= 5.12.6)
+  - SDWebImage/Core (5.12.6)
   - SocketRocket (0.6.0)
   - TapTalk (2.0.0):
     - AFNetworking (~> 4.0.0)
@@ -72,7 +72,7 @@ SPEC CHECKSUMS:
   JSONModel: 02ab723958366a3fd27da57ea2af2113658762e9
   PodAsset: 161b57cdf4d7307b0fb652cccab32fa8d5dc580b
   Realm: 100df88a0faf5328f48477427e4b3e1a1598bae3
-  SDWebImage: 0905f1b7760fc8ac4198cae0036600d67478751e
+  SDWebImage: a47aea9e3d8816015db4e523daff50cfd294499d
   SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
   TapTalk: 155bc2339790c74b7d7df082a9ef96ac43abab89
   ZSWTappableLabel: cff84c0a55e30f2141f7dac24e5903302a7e35ec

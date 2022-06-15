@@ -1,0 +1,6 @@
+module Pods_MeetTalk_MeetTalkTests {
+  umbrella header "Pods-MeetTalk-MeetTalkTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

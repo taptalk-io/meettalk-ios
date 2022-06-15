@@ -87,6 +87,7 @@
                 builder.videoMuted = self.defaultVideoMuted;
             }
             [builder setFeatureFlag:ADD_PEOPLE_ENABLED withBoolean:NO];
+            [builder setFeatureFlag:AUDIO_FOCUS_DISABLED withBoolean:YES]; // Enable audio output override
             [builder setFeatureFlag:AUDIO_MUTE_BUTTON_ENABLED withBoolean:NO];
             [builder setFeatureFlag:CALL_INTEGRATION_ENABLED withBoolean:NO];
             [builder setFeatureFlag:CHAT_ENABLED withBoolean:NO];
@@ -669,7 +670,7 @@
     [self launchMeetTalkCallViewController];
     [self startMissedCallTimer];
     
-    [self playOutgoingCallRingTone];
+    //[self playOutgoingCallRingTone];
 }
 
 - (void)initiateNewConferenceCallWithRoom:(TAPRoomModel *)room
@@ -1297,6 +1298,7 @@
     TAPMessageModel *message = [self generateCallNotificationMessageWithRoom:room body:@"Call info updated." action:CONFERENCE_INFO];
     self.activeConferenceInfo.lastUpdated = message.created;
     [self.activeConferenceInfo attachToMessage:message];
+    message.filterID = self.activeConferenceInfo.callID;
     message.isHidden = YES;
     
     [self sendCallNotificationMessage:message];
@@ -1451,6 +1453,8 @@
         // Close incoming call
         self.answeredCallID = self.activeCallMessage.localID; // Prevent reject call notification from being sent
         [self closeIncomingCall];
+        [self setActiveCallAsEnded];
+        self.callState = MeetTalkCallStateIdle;
         NSLog(@">>>> missedCallTimerFired: Close incoming call");
     }
     else {
