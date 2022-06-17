@@ -1736,4 +1736,68 @@
     }];
 }
 
+- (void)editMessage:(TAPMessageModel *)message
+        updatedText:(NSString *)updatedText
+            start:(void (^)(TAPMessageModel *message))start
+            success:(void (^)(TAPMessageModel *message))success
+            failure:(void (^)(TAPMessageModel * _Nullable message, NSError *error))failure {
+    
+    if (message.type == TAPChatMessageTypeText) {
+        if (updatedText.length > kCharacterLimit) {
+            NSString *errorMessage = [NSString stringWithFormat:@"Message exceeds the %ld character limit", (long)kCharacterLimit];
+            NSError *error = [[TAPCoreErrorManager sharedManager] generateLocalizedErrorWithErrorCode:90306 errorMessage:errorMessage];
+            failure(message, error);
+            return;
+        }
+        message.body = updatedText;
+    }
+    else if (message.type == TAPChatMessageTypeImage || message.type == TAPChatMessageTypeVideo) {
+        NSInteger length = updatedText.length;
+        NSInteger max = [[TapTalk sharedInstance] getMaxCaptionLength];
+        if (updatedText.length > [[TapTalk sharedInstance] getMaxCaptionLength]) {
+            NSString *errorMessage = [NSString stringWithFormat:@"Caption exceeds the %ld character limit", (long)[[TapTalk sharedInstance] getMaxCaptionLength]];
+            NSError *error = [[TAPCoreErrorManager sharedManager] generateLocalizedErrorWithErrorCode:90306 errorMessage:errorMessage];
+            failure(message, error);
+            return;
+        }
+        NSMutableDictionary *dataDictionary = [NSMutableDictionary dictionary];
+        dataDictionary = [message.data mutableCopy];
+        dataDictionary = [[TAPUtil nullToEmptyDictionary:dataDictionary] mutableCopy];
+        [dataDictionary setObject:updatedText forKey:@"caption"];
+        
+        message.data = dataDictionary;
+        
+        if (message.type == TAPChatMessageTypeImage) {
+            if ([updatedText isEqualToString:@""]) {
+                message.body = @"🖼 Photo";
+            }
+            else {
+                message.body = [NSString stringWithFormat:@"🖼 %@", updatedText];
+            }
+        }
+        else if (message.type == TAPChatMessageTypeVideo) {
+            if ([updatedText isEqualToString:@""]) {
+                message.body = @"🎥 Video";
+            }
+            else {
+                message.body = [NSString stringWithFormat:@"🎥 %@", updatedText];
+            }
+        }
+    }
+    else {
+        NSString *errorMessage = @"Invalid message type. Allowed types are text (1001), image (1002), video (1003)";
+        NSError *error = [[TAPCoreErrorManager sharedManager] generateLocalizedErrorWithErrorCode:90309 errorMessage:errorMessage];
+        failure(message, error);
+        return;
+    }
+    
+    start(message);
+    
+    [[TAPChatManager sharedManager] sendEmitWithEditedMessage:message];
+    void (^handlerSuccess)(TAPMessageModel *) = [success copy];
+    NSMutableDictionary *blockTypeDictionary = [[NSMutableDictionary alloc] init];
+    [blockTypeDictionary setObject:handlerSuccess forKey:@"successBlock"];
+    [self.blockDictionary setObject:blockTypeDictionary forKey:message.localID];
+}
+
 @end
